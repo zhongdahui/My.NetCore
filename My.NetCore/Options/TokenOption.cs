@@ -30,6 +30,11 @@ namespace My.NetCore.Options
         public string UserWork { get; set; }
 
         /// <summary>
+        /// 用户数据
+        /// </summary>
+        public string UserData { get; set; }
+
+        /// <summary>
         /// 登录时间
         /// </summary>
         public DateTime LoginTime { get; set; }

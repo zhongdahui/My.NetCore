@@ -46,5 +46,14 @@ namespace My.NetCore.ORM.Dapper
         {
             throw new NotImplementedException();
         }
+
+        public IEnumerable<TEntity> Query(string sql)
+        {
+            throw new NotImplementedException();
+        }
+        public int Execute(string sql)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

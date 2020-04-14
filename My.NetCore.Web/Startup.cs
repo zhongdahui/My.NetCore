@@ -34,6 +34,8 @@ namespace My.NetCore.Web
             services.AddEngine();
             services.AddSwaggerStartup();
             services.AddDbContext<EntityFrameworkDbContext>();
+            services.AddAuthenticationStartup();
+            services.AddJwtAuthenticationStartup();
             //services.AddDbContext<EntityFrameworkDbContext>(options =>
             //{
             //    //options.UseSqlServer(Configuration.GetConnectionString("SqlServerConnection"));

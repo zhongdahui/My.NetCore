@@ -76,5 +76,15 @@ namespace My.NetCore.ORM.EntityFramework
             _entityFrameworkDbContext.Update(list);
             return await _entityFrameworkDbContext.SaveChangesAsync() > 0;
         }
+
+        public IEnumerable<TEntity> Query(string sql)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Execute(string sql)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

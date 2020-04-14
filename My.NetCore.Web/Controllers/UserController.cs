@@ -1,10 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using My.NetCore.Helpers;
+using My.NetCore.IOC;
+using My.NetCore.Model;
+using My.NetCore.Options;
 using My.NetCore.Web.Entitys;
 using My.NetCore.Web.Services;
 using System;
+using System.Security.Claims;
 
 namespace My.NetCore.Web.Controllers
 {
+    public class LoginModel 
+    { 
+        public string UserName { get; set; }
+        public string Password { get; set; }
+    }
+
     [Route("[Controller]/[Action]")]
     [ApiController]
     public class UserController: Controller
@@ -16,22 +29,29 @@ namespace My.NetCore.Web.Controllers
             _userService = userService;
         }
 
+        [HttpPost]
+        public IActionResult Login(LoginModel loginModel)
+        {
+            if (loginModel.UserName == "admin" && loginModel.Password == "123123")
+            {
+                var config = EnginContext.Current.Resolve<IOptions<AppSettingOption>>();
+                string token = AuthenticationHelper.GetJwtToken(config.Value.JwtBearer, new TokenOption() { ID = 1, UserCode = "abc123", UserName = "admin", UserRole = "admin", UserWork = "aaa.bb", UserData = "{\"id\":1,\"name\":\"admin\"}", LoginTime = DateTime.Now });
+
+                return Json(TableResultVM.Success(token));
+            }
+            else
+            {
+                return Json(TableResultVM.Fail("密码错误"));
+            }
+        }
+
+        [Authorize]
         public IActionResult List()
         {
-            var list = _userService.Query(a => a.ID > 0);
+            string token = AuthenticationHelper.GetToken(HttpContext);
+            var list = AuthenticationHelper.GetClaimValueByType(HttpContext, ClaimTypes.UserData);
 
-            //if (list != null)
-            //{
-            //    foreach (var item in list)
-            //    {
-            //        if (item is UserModel)
-            //        {
-            //            Console.WriteLine(string.Format("{0}--{1}--{2}--{3}", item.ID, item.UserName, item.Age, item.BrithDate));
-            //        }
-            //    }
-            //}
-
-            return Json(list);
+            return Json("list");
         }
 
         [HttpGet]

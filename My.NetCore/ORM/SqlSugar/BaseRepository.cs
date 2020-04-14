@@ -67,5 +67,14 @@ namespace My.NetCore.ORM.SqlSugar
         {
             return await Task.Run(() => 1 == 2);
         }
+
+        public IEnumerable<TEntity> Query(string sql)
+        {
+            return DbClient.Ado.SqlQuery<TEntity>(sql);
+        }
+        public int Execute(string sql)
+        {
+            return DbClient.Ado.ExecuteCommand(sql);
+        }
     }
 }

@@ -15,5 +15,7 @@ namespace My.NetCore.ORM
         Task<bool> Delete(IList<TEntity> list);
         IEnumerable<TEntity> Query(Expression<Func<TEntity, bool>> whereLambda);
         IEnumerable<TEntity> Query(Expression<Func<TEntity, bool>> whereLambda, Expression<Func<TEntity, object>> orderLambda, bool isAsc, int pageIndex, int pageSize, ref int totalCount);
+        IEnumerable<TEntity> Query(string sql);
+        int Execute(string sql);
     }
 }

@@ -28,7 +28,8 @@ namespace My.NetCore.Helpers
             claimIdentity.AddClaim(new Claim(ClaimTypes.Sid, model.UserCode));
             claimIdentity.AddClaim(new Claim(ClaimTypes.Name, model.UserName));
             claimIdentity.AddClaim(new Claim(ClaimTypes.Role, model.UserRole));
-            claimIdentity.AddClaim(new Claim(ClaimTypes.UserData, model.UserWork));
+            claimIdentity.AddClaim(new Claim(ClaimTypes.AuthorizationDecision, model.UserWork));
+            claimIdentity.AddClaim(new Claim(ClaimTypes.UserData, model.UserData));
 
             content.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                                 new ClaimsPrincipal(claimIdentity),
@@ -60,7 +61,8 @@ namespace My.NetCore.Helpers
                 new Claim(ClaimTypes.Sid, model.UserCode), // 用户id
                 new Claim(ClaimTypes.Name, model.UserName), // 用户名
                 new Claim(ClaimTypes.Role, model.UserRole), // 是否是管理员
-                new Claim(ClaimTypes.UserData, model.UserWork)
+                new Claim(ClaimTypes.AuthorizationDecision,model.UserWork),
+                new Claim(ClaimTypes.UserData, model.UserData)
             };
 
             var SecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtBearerOption.SecurityKey));
@@ -81,6 +83,10 @@ namespace My.NetCore.Helpers
             return jwtToken;
         }
 
+        public static bool IsAuthenticated(HttpContext content)
+        {
+            return content.User.Identity.IsAuthenticated;
+        }
 
         public static string GetToken(HttpContext content)
         {
