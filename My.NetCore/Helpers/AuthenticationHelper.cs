@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
+using My.NetCore.IOC;
 using My.NetCore.Options;
 using System;
 using System.Collections.Generic;
@@ -78,6 +79,25 @@ namespace My.NetCore.Helpers
             string jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
 
             return jwtToken;
+        }
+
+
+        public static string GetToken(HttpContext content)
+        {
+            return content.Request.Headers["Authorization"].ObjectToString().Replace("Bearer ", "");
+        }
+
+        public static IEnumerable<Claim> GetClaimsIdentity(HttpContext content)
+        {
+            return content.User.Claims;
+        }
+
+        public static List<string> GetClaimValueByType(HttpContext content, string ClaimType)
+        {
+            return (from item in GetClaimsIdentity(content)
+                    where item.Type == ClaimType
+                    select item.Value).ToList();
+
         }
     }
 }
