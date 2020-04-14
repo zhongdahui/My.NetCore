@@ -14,22 +14,15 @@ using My.NetCore.AOP;
 using My.NetCore.Attributes;
 using My.NetCore.Startup;
 using My.NetCore.Filters;
-using My.NetCore.Options;
 using My.NetCore.ORM.EntityFramework;
-using My.NetCore.Web.Entitys;
-using My.NetCore.Helpers;
-using AutoMapper;
-using My.NetCore.ORM.SqlSugar;
-using Microsoft.EntityFrameworkCore;
 
 namespace My.NetCore.Web
 {
     public class Startup
     {
         public IConfiguration Configuration { get; }
-        public AppSettingOption AppSettingOption { get; set; }
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             Configuration = configuration;
         }

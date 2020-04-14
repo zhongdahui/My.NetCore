@@ -1,19 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
-using AutoMapper;
-using AutoMapper.Configuration;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using My.NetCore.AutoMapper;
 using My.NetCore.Helpers;
-using My.NetCore.IOC;
 using My.NetCore.Options;
 using My.NetCore.Web.Entitys;
-using My.NetCore.Web.Services;
 
 namespace My.NetCore.Web.Controllers
 {

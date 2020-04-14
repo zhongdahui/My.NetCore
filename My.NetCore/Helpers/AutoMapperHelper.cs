@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using AutoMapper.Configuration;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using My.NetCore.Attributes;
 using My.NetCore.IOC;
