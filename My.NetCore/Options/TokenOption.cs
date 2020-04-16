@@ -22,21 +22,21 @@ namespace My.NetCore.Options
         /// <summary>
         /// 用户角色
         /// </summary>
-        public string UserRole { get; set; }
+        public string UserRole { get; set; } = "";
 
         /// <summary>
         /// 用户职能
         /// </summary>
-        public string UserWork { get; set; }
+        public string UserWork { get; set; } = "";
 
         /// <summary>
         /// 用户数据
         /// </summary>
-        public string UserData { get; set; }
+        public string UserData { get; set; } = "";
 
         /// <summary>
         /// 登录时间
         /// </summary>
-        public DateTime LoginTime { get; set; }
+        public DateTime LoginTime { get; set; } = DateTime.Now;
     }
 }

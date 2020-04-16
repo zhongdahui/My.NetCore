@@ -9,7 +9,7 @@ using My.NetCore.Attributes;
 
 namespace My.NetCore.Startup
 {
-    public static class AppServiceExtensions
+    public static class AppServiceStartup
     {
         /// <summary>
         /// 注册应用程序域中所有有AppService特性的类

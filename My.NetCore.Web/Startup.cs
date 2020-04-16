@@ -31,7 +31,7 @@ namespace My.NetCore.Web
         {
             services.AddConfigureStartup(Configuration);
             services.AddControllersWithViews(config => { config.Filters.Add(typeof(GlobalExceptionFilter)); }).AddControllersAsServices();
-            services.AddEngine();
+            services.AddEngineStartup();
             services.AddSwaggerStartup();
             services.AddDbContext<EntityFrameworkDbContext>();
             services.AddAuthenticationStartup();

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace My.NetCore.Startup
 {
-    public static class Startup
+    public static class EngineStartup
     {
-        public static void AddEngine(this IServiceCollection services)
+        public static void AddEngineStartup(this IServiceCollection services)
         {
             EnginContext.Initialize(new GeneralEngine(services.BuildServiceProvider()));
         }

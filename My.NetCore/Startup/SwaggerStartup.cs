@@ -33,7 +33,7 @@ namespace My.NetCore.Startup
                 options.ReportApiVersions = true; //可选配置，设置为true时，header返回版本信息
                 options.ApiVersionReader = new QueryStringApiVersionReader("version");//HTTP Header报头传递
                 options.AssumeDefaultVersionWhenUnspecified = true;//是否启用未指明版本API，指向默认版本
-                options.DefaultApiVersion = new ApiVersion(2, 0);
+                options.DefaultApiVersion = new ApiVersion(1, 0);
             })
             .AddVersionedApiExplorer(o =>
             {
@@ -63,15 +63,31 @@ namespace My.NetCore.Startup
                     string interfaceDescriptionsPath = swaggerSettingOption.InterfaceDescriptionsPath;
                     string modelDescriptionsPath = swaggerSettingOption.ModelDescriptionsPath;
 
-                    if (!string.IsNullOrEmpty(interfaceDescriptionsPath) && string.IsNullOrEmpty(modelDescriptionsPath))
+                    if (!string.IsNullOrEmpty(interfaceDescriptionsPath) && !string.IsNullOrEmpty(modelDescriptionsPath))
                     {
                         try
                         {
-                            var xmlPath = Path.Combine(basePath, interfaceDescriptionsPath);//这个就是刚刚配置的xml文件名
-                            options.IncludeXmlComments(xmlPath, true);//默认的第二个参数是false，这个是controller的注释，记得修改
+                            var interface_list = interfaceDescriptionsPath.Split(',');
 
-                            var xmlModelPath = Path.Combine(basePath, modelDescriptionsPath);//这个就是Model层的xml文件名
-                            options.IncludeXmlComments(xmlModelPath);
+                            if(interface_list!=null&& interface_list.Length>0)
+                            {
+                                foreach (var item in interface_list)
+                                {
+                                    var xmlPath = Path.Combine(basePath, item);//这个就是刚刚配置的xml文件名
+                                    options.IncludeXmlComments(xmlPath, true);//默认的第二个参数是false，这个是controller的注释，记得修改
+                                }
+                            }
+
+                            var model_list = modelDescriptionsPath.Split(',');
+
+                            if (model_list != null && model_list.Length > 0)
+                            {
+                                foreach (var item in model_list)
+                                {
+                                    var xmlModelPath = Path.Combine(basePath, item);//这个就是Model层的xml文件名
+                                    options.IncludeXmlComments(xmlModelPath);
+                                }
+                            }
                         }
                         catch (Exception ex)
                         {
