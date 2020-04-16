@@ -5,20 +5,20 @@ using System.Threading.Tasks;
 
 namespace My.NetCore.Model
 {
-    public class TableResultVM
+    public class ResultVM
     {
         public int code { get; set; }
         public string message { get; set; }
         public object data { get; set; }
 
-        public static TableResultVM Success(object data = null, string message = "成功")
+        public static ResultVM Success(object data = null, string message = "成功")
         {
-            return new TableResultVM() { code = 0, data = data, message = message };
+            return new ResultVM() { code = 0, data = data, message = message };
         }
 
-        public static TableResultVM Fail(string message = "失败", int code = -1)
+        public static ResultVM Fail(string message = "失败", int code = -1)
         {
-            return new TableResultVM() { code = code, data = null, message = message };
+            return new ResultVM() { code = code, data = null, message = message };
         }
     }
 

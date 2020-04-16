@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace My.NetCore.Utils
+namespace My.NetCore.Helpers
 {
     public class MD5Helper
     {

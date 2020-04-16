@@ -5,7 +5,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace My.NetCore.Utils
+namespace My.NetCore.Helpers
 {
     public class DateTimeConverter : JsonConverter<DateTime>
     {

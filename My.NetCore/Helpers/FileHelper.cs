@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace My.NetCore.Utils
+namespace My.NetCore.Helpers
 {
     public class FileHelper : IDisposable
     {

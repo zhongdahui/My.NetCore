@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace My.NetCore.Utils
+namespace My.NetCore.Helpers
 {
     public static class ConsoleHelper
     {

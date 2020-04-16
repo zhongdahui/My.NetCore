@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using Microsoft.AspNetCore.Mvc;
 using My.NetCore.Helpers;
 using My.NetCore.Options;
@@ -11,6 +13,8 @@ namespace My.NetCore.Web.Controllers
     {
         public IActionResult Index()
         {
+            var test = My.NetCore.Helpers.ValidateCodeHelper.GetVerifyCode();
+
             var model = new UserModel()
             {
                 ID = 1,
@@ -23,6 +27,12 @@ namespace My.NetCore.Web.Controllers
             aa.UserName = "admin11";
 
             return Json(aa);
+        }
+
+        public IActionResult Test()
+        {
+            var test = Convert.ToBase64String(QRCodeHelper.GetQRCode("abcabcabcagd123").ToArray());
+            return File(QRCodeHelper.GetQRCode("abcabcabcagd123").ToArray(), "image/png");
         }
     }
 }
