@@ -15,13 +15,13 @@ namespace My.NetCore.Startup
         {
             services.AddCors(options =>
             {
-                options.AddPolicy(MyAllowSpecificOrigins, builder => builder.AllowAnyOrigin());
+                options.AddPolicy(MyAllowSpecificOrigins, builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             });
         }
 
-        public static IApplicationBuilder UseCorsMiddleware(this IApplicationBuilder builder)
+        public static void UseCorsMiddleware(this IApplicationBuilder builder)
         {
-            return builder.UseCors(MyAllowSpecificOrigins);
+            builder.UseCors(MyAllowSpecificOrigins);
         }
     }
 }
