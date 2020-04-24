@@ -31,16 +31,6 @@ namespace My.NetCore.Web.Controllers
 
         public IActionResult Test()
         {
-            var list = System.IO.File.ReadAllLines("C:\\Users\\zhongdahui\\Desktop\\aaa.txt");
-
-            if (list != null && list.Length > 0)
-            {
-                foreach (var item in list)
-                {
-                    var test = RedisCacheHelper.Del($"product_sku_stock_{item}_0");
-                }
-            }
-
             return Json("完成");
         }
     }

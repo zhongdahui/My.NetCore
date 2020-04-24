@@ -249,14 +249,14 @@ namespace My.NetCore.Payment.UnionPay
         {
             try
             {
-                if (ACPROOTCER is null)
-                {
-#if DEBUG
-                    ACPROOTCER = GetCert(Resources.acp_test_root);
-#else
-                    ACPROOTCER= GetCert(Resources.acp_prod_root);
-#endif
-                }
+//                if (ACPROOTCER is null)
+//                {
+//#if DEBUG
+//                    ACPROOTCER = GetCert(Resources.acp_test_root);
+//#else
+//                    ACPROOTCER= GetCert(Resources.acp_prod_root);
+//#endif
+//                }
 
                 return ACPROOTCER;
             }
@@ -270,14 +270,14 @@ namespace My.NetCore.Payment.UnionPay
         {
             try
             {
-                if (ACPMIDDLECER is null)
-                {
-#if DEBUG
-                    ACPMIDDLECER = GetCert(Resources.acp_test_middle);
-#else
-                    ACPMIDDLECER= GetCert(Resources.acp_prod_middle);
-#endif
-                }
+//                if (ACPMIDDLECER is null)
+//                {
+//#if DEBUG
+//                    ACPMIDDLECER = GetCert(Resources.acp_test_middle);
+//#else
+//                    ACPMIDDLECER= GetCert(Resources.acp_prod_middle);
+//#endif
+//                }
 
                 return ACPMIDDLECER;
             }
@@ -291,14 +291,14 @@ namespace My.NetCore.Payment.UnionPay
         {
             try
             {
-                if (ACPENCCER is null)
-                {
-#if DEBUG
-                    ACPENCCER = GetCert(Resources.acp_test_enc);
-#else
-                    ACPENCCER= GetCert(Resources.acp_prod_enc);
-#endif
-                }
+//                if (ACPENCCER is null)
+//                {
+//#if DEBUG
+//                    ACPENCCER = GetCert(Resources.acp_test_enc);
+//#else
+//                    ACPENCCER= GetCert(Resources.acp_prod_enc);
+//#endif
+//                }
 
                 return ACPENCCER;
             }
