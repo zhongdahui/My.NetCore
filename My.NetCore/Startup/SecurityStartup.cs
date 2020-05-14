@@ -22,7 +22,6 @@ namespace My.NetCore.Startup
         /// <param name="services"></param>
         public static void AddAuthenticationStartup(this IServiceCollection services)
         {
-
             var option = EnginContext.Current.Resolve<IOptions<AppSettingOption>>();
 
             if(option==null) throw new ArgumentNullException(nameof(option));

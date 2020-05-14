@@ -17,5 +17,6 @@ namespace My.NetCore.Options
         public RabbitMQOption RabbitMQ { get; set; }
         public FastDFSOption FastDFS { get; set; }
         public AutoMapperOption AutoMapper { get; set; }
+        public CodeGenerateOption CodeGenerate { get; set; }
     }
 }

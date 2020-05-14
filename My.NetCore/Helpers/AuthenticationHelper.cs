@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using My.NetCore.IOC;
 using My.NetCore.Options;
@@ -14,16 +15,16 @@ using System.Threading.Tasks;
 
 namespace My.NetCore.Helpers
 {
-    public class AuthenticationHelper
+    public static class AuthenticationHelper
     {
         /// <summary>
-        /// 
+        /// 登录
         /// </summary>
         /// <param name="content"></param>
         /// <param name="model"></param>
-        public static void SignIn(HttpContext content, TokenOption model)
+        public static void SignIn(this HttpContext content, TokenOption model, string scheme = CookieAuthenticationDefaults.AuthenticationScheme)
         {
-            var claimIdentity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+            var claimIdentity = new ClaimsIdentity(scheme);
             claimIdentity.AddClaim(new Claim(ClaimTypes.NameIdentifier, model.ID.ToString()));
             claimIdentity.AddClaim(new Claim(ClaimTypes.Sid, model.UserCode));
             claimIdentity.AddClaim(new Claim(ClaimTypes.Name, model.UserName));
@@ -31,29 +32,27 @@ namespace My.NetCore.Helpers
             claimIdentity.AddClaim(new Claim(ClaimTypes.AuthorizationDecision, model.UserWork));
             claimIdentity.AddClaim(new Claim(ClaimTypes.UserData, model.UserData));
 
-            content.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                                new ClaimsPrincipal(claimIdentity),
-                                new AuthenticationProperties() { IsPersistent = true });
-
+            content.SignInAsync(scheme, new ClaimsPrincipal(claimIdentity), new AuthenticationProperties() { IsPersistent = true });
         }
 
         /// <summary>
-        /// 
+        /// 登出
         /// </summary>
         /// <param name="content"></param>
-        public static void SignOut(HttpContext content)
+        public static void SignOut(this HttpContext content, string scheme = CookieAuthenticationDefaults.AuthenticationScheme)
         {
-            content.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            content.SignOutAsync(scheme);
         }
 
         /// <summary>
-        /// 
+        /// 获取api token
         /// </summary>
-        /// <param name="jwtBearerOption"></param>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static string GetJwtToken(JwtBearerOption jwtBearerOption, TokenOption model)
+        public static string GetJwtToken(TokenOption model)
         {
+            var jwtBearerOption = EnginContext.Current.Resolve<IOptions<AppSettingOption>>();
+
             //创建用户身份标识，可按需要添加更多信息
             var claims = new Claim[]
             {
@@ -65,17 +64,17 @@ namespace My.NetCore.Helpers
                 new Claim(ClaimTypes.UserData, model.UserData)
             };
 
-            var SecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtBearerOption.SecurityKey));
+            var SecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtBearerOption.Value.JwtBearer.SecurityKey));
             var Credentials = new SigningCredentials(SecurityKey, SecurityAlgorithms.HmacSha256);
 
             //创建令牌
             var token = new JwtSecurityToken(
-                issuer: jwtBearerOption.Issuer,
-                audience: jwtBearerOption.Audience,
+                issuer: jwtBearerOption.Value.JwtBearer.Issuer,
+                audience: jwtBearerOption.Value.JwtBearer.Audience,
                 signingCredentials: Credentials,
                 claims: claims,
                 notBefore: DateTime.Now,
-                expires: DateTime.Now.AddSeconds(jwtBearerOption.ExpireSeconds)
+                expires: DateTime.Now.AddSeconds(jwtBearerOption.Value.JwtBearer.ExpireSeconds)
             );
 
             string jwtToken = new JwtSecurityTokenHandler().WriteToken(token);
@@ -83,27 +82,65 @@ namespace My.NetCore.Helpers
             return jwtToken;
         }
 
-        public static bool IsAuthenticated(HttpContext content)
+        /// <summary>
+        /// 是否授权
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public static bool IsAuthenticated(this HttpContext content)
         {
             return content.User.Identity.IsAuthenticated;
         }
 
-        public static string GetToken(HttpContext content)
+        /// <summary>
+        /// 获取当前token
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public static string GetToken(this HttpContext content)
         {
             return content.Request.Headers["Authorization"].ObjectToString().Replace("Bearer ", "");
         }
 
-        public static IEnumerable<Claim> GetClaimsIdentity(HttpContext content)
+        /// <summary>
+        /// 获取
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="claim"></param>
+        /// <returns></returns>
+        public static string GetClaimValueByType(this HttpContext content, string claim)
         {
-            return content.User.Claims;
+            return content.User.Claims.Where(w => w.Type == claim).FirstOrDefault().Value;
         }
 
-        public static List<string> GetClaimValueByType(HttpContext content, string ClaimType)
+        /// <summary>
+        /// 获取登录编号
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public static string GetUserID(this HttpContext content)
         {
-            return (from item in GetClaimsIdentity(content)
-                    where item.Type == ClaimType
-                    select item.Value).ToList();
+            return content.User.Claims.Where(w => w.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
+        }
 
+        /// <summary>
+        /// 获取登录帐号编号
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public static string GetUserCode(this HttpContext content)
+        {
+            return content.User.Claims.Where(w => w.Type == ClaimTypes.Sid).FirstOrDefault().Value;
+        }
+
+        /// <summary>
+        /// 获取登录帐号
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public static string GetUserName(this HttpContext content)
+        {
+            return content.User.Claims.Where(w => w.Type == ClaimTypes.Name).FirstOrDefault().Value;
         }
     }
 }

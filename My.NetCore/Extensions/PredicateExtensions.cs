@@ -8,28 +8,25 @@ namespace My.NetCore.Extensions
 {
     public static class PredicateExtensions
     {
-        public static Expression<Func<T, bool>> True<T>() { return f => true; }
 
-        public static Expression<Func<T, bool>> False<T>() { return f => false; }
-
-        public static Expression<Func<T, bool>> Or<T>(this Expression<Func<T, bool>> expression1,
-           Expression<Func<T, bool>> expression2)
+        public static Expression<Func<T, bool>> Or<T>(this Expression<Func<T, bool>> exprLeft,
+            Expression<Func<T, bool>> exprRight)
         {
-            var invokedExpression = Expression.Invoke(expression2, expression1.Parameters
-                    .Cast<Expression>());
-
-            return Expression.Lambda<Func<T, bool>>(Expression.Or(expression1.Body, invokedExpression),
-            expression1.Parameters);
+            var invokedExpr = Expression.Invoke(exprRight, exprLeft.Parameters);
+            // Expression.Or 导致以下错误
+            // 无法将类型为“NHibernate.Hql.Ast.HqlBitwiseOr”的对象强制转换为类型“NHibernate.Hql.Ast.HqlBooleanExpression”。
+            // Expression.Or()表示按位运算，而Expression.OrElse()才表示逻辑运算
+            return Expression.Lambda<Func<T, bool>>(Expression.OrElse(exprLeft.Body, invokedExpr), exprLeft.Parameters);
         }
 
-        public static Expression<Func<T, bool>> And<T>(this Expression<Func<T, bool>> expression1,
-              Expression<Func<T, bool>> expression2)
+        public static Expression<Func<T, bool>> And<T>(this Expression<Func<T, bool>> exprLeft,
+            Expression<Func<T, bool>> exprRight)
         {
-            var invokedExpression = Expression.Invoke(expression2, expression1.Parameters
-                 .Cast<Expression>());
-
-            return Expression.Lambda<Func<T, bool>>(Expression.And(expression1.Body,
-                   invokedExpression), expression1.Parameters);
+            var invokedExpr = Expression.Invoke(exprRight, exprLeft.Parameters);
+            // Expression.And 导致以下NHibernate错误
+            // 无法将类型为“NHibernate.Hql.Ast.HqlBitwiseAnd”的对象强制转换为类型“NHibernate.Hql.Ast.HqlBooleanExpression”
+            // Expression.And()表示按位运算，而Expression.AndAlso()才表示逻辑运算
+            return Expression.Lambda<Func<T, bool>>(Expression.AndAlso(exprLeft.Body, invokedExpr), exprLeft.Parameters);
         }
     }
 }

@@ -77,12 +77,16 @@ namespace My.NetCore.ORM.EntityFramework
             return await _entityFrameworkDbContext.SaveChangesAsync() > 0;
         }
 
-        public IEnumerable<TEntity> Query(string sql)
+        public IEnumerable<T> SqlQuery<T>(string sql)
         {
             throw new NotImplementedException();
         }
 
-        public int Execute(string sql)
+        public int ExecuteCommand(string sql)
+        {
+            throw new NotImplementedException();
+        }
+        public int ExecuteScale(string sql)
         {
             throw new NotImplementedException();
         }

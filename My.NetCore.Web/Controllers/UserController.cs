@@ -35,7 +35,7 @@ namespace My.NetCore.Web.Controllers
             if (loginModel.UserName == "admin" && loginModel.Password == "123123")
             {
                 var config = EnginContext.Current.Resolve<IOptions<AppSettingOption>>();
-                string token = AuthenticationHelper.GetJwtToken(config.Value.JwtBearer, new TokenOption() { ID = 1, UserCode = "abc123", UserName = "admin", UserRole = "admin", UserWork = "aaa.bb", UserData = "{\"id\":1,\"name\":\"admin\"}", LoginTime = DateTime.Now });
+                string token = AuthenticationHelper.GetJwtToken( new TokenOption() { ID = 1, UserCode = "abc123", UserName = "admin", UserRole = "admin", UserWork = "aaa.bb", UserData = "{\"id\":1,\"name\":\"admin\"}", LoginTime = DateTime.Now });
 
                 return Json(ResultVM.Success(token));
             }

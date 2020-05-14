@@ -1,0 +1,19 @@
+﻿using {ModelsNamespace};
+using {RepositoriesNamespace};
+using My.NetCore.Attributes;
+using My.NetCore.ORM.SqlSugar;
+
+namespace {ServiceNamespace}
+{
+    [Service]
+    public class {ModelTypeName}Servier : BaseService<{ModelTypeName}>, I{ModelTypeName}Service
+    {
+        private I{ModelTypeName}Repository _{ModelTypeName}Repository;
+
+        public {ModelTypeName}Servier(I{ModelTypeName}Repository {ModelTypeName}Repository)
+        {
+            this._{ModelTypeName}Repository = {ModelTypeName}Repository;
+            base.baseRepository = {ModelTypeName}Repository;
+        }
+    }
+}

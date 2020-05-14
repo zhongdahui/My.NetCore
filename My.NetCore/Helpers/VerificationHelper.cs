@@ -129,6 +129,16 @@ namespace My.NetCore.Helpers
 
             chkKey = MD5Helper.MD5Encrypt16(chkCode.ToLower());
 
+            try
+            {
+                //保存在redis里
+                RedisCacheHelper.Set(chkCode.ToLower(), chkKey.ToLower(), 60);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
             //创建画布
             Bitmap bmp = new Bitmap(codeW, codeH);
             Graphics g = Graphics.FromImage(bmp);
@@ -177,7 +187,17 @@ namespace My.NetCore.Helpers
         /// <returns></returns>
         public static bool CheckVerifyCode(string verify_code)
         {
-            return true;
+            var test = RedisCacheHelper.Get(verify_code.ToLower());
+
+            if (string.IsNullOrEmpty(test))
+            {
+                return false;
+            }
+            else
+            {
+                RedisCacheHelper.Del(verify_code.ToLower());
+                return true;
+            }
         }
     }
 }

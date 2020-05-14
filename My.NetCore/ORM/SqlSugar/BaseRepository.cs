@@ -33,7 +33,7 @@ namespace My.NetCore.ORM.SqlSugar
 
         public async Task<bool> Delete(IList<TEntity> list)
         {
-            return await Task.Run(() => 1 == 2);
+            return await DbClient.Deleteable(list.ToList()).ExecuteCommandHasChangeAsync();
         }
 
         public async Task<bool> Insert(TEntity entity)
@@ -65,16 +65,22 @@ namespace My.NetCore.ORM.SqlSugar
 
         public async Task<bool> Update(IList<TEntity> list)
         {
-            return await Task.Run(() => 1 == 2);
+            return await DbClient.Updateable(list.ToList()).ExecuteCommandHasChangeAsync();
         }
 
-        public IEnumerable<TEntity> Query(string sql)
+        public IEnumerable<T> SqlQuery<T>(string sql)
         {
-            return DbClient.Ado.SqlQuery<TEntity>(sql);
+            return DbClient.Ado.SqlQuery<T>(sql);
         }
-        public int Execute(string sql)
+
+        public int ExecuteCommand(string sql)
         {
             return DbClient.Ado.ExecuteCommand(sql);
+        }
+
+        public int ExecuteScale(string sql)
+        {
+            return DbClient.Ado.GetInt(sql);
         }
     }
 }

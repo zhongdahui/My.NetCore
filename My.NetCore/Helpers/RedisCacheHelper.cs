@@ -29,7 +29,7 @@ namespace My.NetCore.Helpers
 
             redisManger = new CSRedisClient(config.Value.Redis.Connection);      //Redis的连接字符串
 
-            Console.WriteLine(DateTime.Now.ToString() + ":" + redisManger.GetHashCode());
+            //Console.WriteLine(DateTime.Now.ToString() + ":" + redisManger.GetHashCode());
         }
 
         public static bool Set(string key, object value, int timeout = -1)
