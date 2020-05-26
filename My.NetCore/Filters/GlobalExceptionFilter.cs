@@ -17,6 +17,7 @@ namespace My.NetCore.Filters
         public void OnException(ExceptionContext context)
         {
             _logger.LogError(context.Exception, context.Exception.Message);
+
             context.Result = new JsonResult(ResultVM.Fail($"系统异常：{context.Exception.Message}"));
             context.ExceptionHandled = true;//异常已处理
         }

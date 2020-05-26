@@ -16,7 +16,7 @@ namespace My.NetCore.Helpers
             _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<HttpResponseMessage> Post(string url,string body,string contentType= "application/x-www-form-urlencoded" )
+        public async Task<HttpResponseMessage> Post(string url, string body = "", string contentType = "application/x-www-form-urlencoded")
         {
             var content = new StringContent(body);
             var client = _httpClientFactory.CreateClient();
@@ -39,7 +39,14 @@ namespace My.NetCore.Helpers
             var content = new StringContent(body.TrimEnd('&'));
             content.Headers.ContentType = new MediaTypeHeaderValue(contentType);
             var client = _httpClientFactory.CreateClient();
+
             return await client.PostAsync(url, content);
+        }
+
+        public async Task<HttpResponseMessage> Get(string url)
+        {
+            var client = _httpClientFactory.CreateClient();
+            return await client.GetAsync(url);
         }
     }
 }
