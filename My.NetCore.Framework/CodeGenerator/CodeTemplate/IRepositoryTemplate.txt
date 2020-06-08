@@ -1,0 +1,10 @@
+﻿using {ModelsNamespace};
+using My.NetCore.Framework.ORM;
+
+namespace {IRepositoriesNamespace}
+{
+    public interface I{ModelTypeName}Repository : IBaseRepository<{ModelTypeName}>
+    {
+
+    }
+}

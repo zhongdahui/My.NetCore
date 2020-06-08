@@ -1,0 +1,15 @@
+﻿using {ModelsNamespace};
+using My.NetCore.Framework.Attributes;
+using My.NetCore.Framework.ORM.SqlSugar;
+
+namespace {RepositoriesNamespace}
+{
+    [Repository]
+    public class {ModelTypeName}Repository : BaseRepository<{ModelTypeName}>, I{ModelTypeName}Repository
+    {
+        public {ModelTypeName}Repository(SqlSugarDbContext sqlSugarDbContext) : base(sqlSugarDbContext)
+        {
+
+        }
+    }
+}

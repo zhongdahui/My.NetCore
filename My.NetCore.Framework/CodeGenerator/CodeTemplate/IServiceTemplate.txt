@@ -1,0 +1,9 @@
+﻿using {ModelsNamespace};
+using My.NetCore.Framework.ORM;
+
+namespace {IServiceNamespace}
+{
+    public interface I{ModelTypeName}Service : IBaseServices<{ModelTypeName}>
+    {
+    }
+}
