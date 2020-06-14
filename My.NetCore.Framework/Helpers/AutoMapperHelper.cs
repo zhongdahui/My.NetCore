@@ -2,7 +2,7 @@
 using AutoMapper.Configuration;
 using Microsoft.Extensions.Options;
 using My.NetCore.Framework.Attributes;
-using My.NetCore.Framework.IOC;
+using My.NetCore.Framework.IOC.Attributes;
 using My.NetCore.Framework.Options;
 using System;
 using System.Collections;

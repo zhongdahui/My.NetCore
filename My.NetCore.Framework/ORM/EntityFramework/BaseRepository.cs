@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using My.NetCore.Framework.IOC;
+using My.NetCore.Framework.IOC.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,15 +11,16 @@ namespace My.NetCore.Framework.ORM.EntityFramework
 {
     public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class, new()
     {
-        private readonly EntityFrameworkDbContext _entityFrameworkDbContext;
-        private readonly DbSet<TEntity> _set;
+        [Autowired]
+        private  EntityFrameworkDbContext _entityFrameworkDbContext { get; set; }
+        //private readonly DbSet<TEntity> _set;
 
-        public BaseRepository(EntityFrameworkDbContext entityFrameworkDbContext)
-        {
-            if (entityFrameworkDbContext == null) throw new ArgumentNullException(nameof(entityFrameworkDbContext));
-            _entityFrameworkDbContext = entityFrameworkDbContext;
-            _set = entityFrameworkDbContext.Set<TEntity>();
-        }
+        //public BaseRepository()
+        //{
+        //    if (_entityFrameworkDbContext == null) throw new ArgumentNullException(nameof(_entityFrameworkDbContext));
+        //    //_entityFrameworkDbContext = entityFrameworkDbContext;
+        //    _set = _entityFrameworkDbContext.Set<TEntity>();
+        //}
 
         public async Task<bool> Delete(TEntity entity)
         {

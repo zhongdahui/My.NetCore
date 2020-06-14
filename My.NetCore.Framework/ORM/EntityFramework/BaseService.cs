@@ -1,4 +1,5 @@
-﻿using System;
+﻿using My.NetCore.Framework.IOC.Attributes;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -7,7 +8,8 @@ namespace My.NetCore.Framework.ORM.EntityFramework
     public class BaseService<TEntity> : IBaseServices<TEntity> where TEntity : class, new()
     {
         //通过在子类的构造函数中注入，这里是基类，不用构造函数
-        public IBaseRepository<TEntity> baseRepository;
+        [Autowired]
+        public IBaseRepository<TEntity> baseRepository { get; set; }
 
         public async Task<bool> Delete(TEntity entity)
         {
