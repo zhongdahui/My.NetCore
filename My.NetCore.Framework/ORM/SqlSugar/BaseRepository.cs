@@ -11,9 +11,9 @@ namespace My.NetCore.Framework.ORM.SqlSugar
     {
         public ISqlSugarClient DbClient { get; set; }
 
-        public BaseRepository(IDbFactory dbFactory)
+        public BaseRepository()
         {
-            DbClient = dbFactory.GetDbContext();
+            DbClient = SqlSugarDbFactory.GetInstance().SqlSugarClient;
         }
 
         public async Task<bool> DeleteById(object id)

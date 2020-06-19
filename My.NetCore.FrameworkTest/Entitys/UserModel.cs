@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace My.NetCore.FrameworkTest.Entitys
 {
-    //[SugarTable("db_user")]
-    [Table("User")]
+    [SugarTable("db_user")]
+    //[Table("User")]
     public class UserModel
     {
 

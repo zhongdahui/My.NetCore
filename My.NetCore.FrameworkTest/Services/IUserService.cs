@@ -11,5 +11,7 @@ namespace My.NetCore.FrameworkTest.Services
         IEnumerable<UserModel> GetUserByID();
 
         UserModel InsertUser(int id, string name, UserModel model);
+
+        void DoSomeThink();
     }
 }

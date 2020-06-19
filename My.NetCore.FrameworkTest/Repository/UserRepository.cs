@@ -1,5 +1,5 @@
 ﻿using My.NetCore.Framework.IOC.Attributes;
-using My.NetCore.Framework.ORM.EntityFramework;
+using My.NetCore.Framework.ORM.SqlSugar;
 using My.NetCore.FrameworkTest.Entitys;
 using System;
 

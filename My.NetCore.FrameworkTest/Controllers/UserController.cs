@@ -16,7 +16,8 @@ namespace My.NetCore.FrameworkTest.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            
+
+            _userService.DoSomeThink();
             var list = _userService.Query(w => w.ID > 1);
             return Json(list);
         }
