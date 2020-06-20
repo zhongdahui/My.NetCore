@@ -36,17 +36,16 @@ namespace My.NetCore.FrameworkTest
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddTransient<TransactionAOP>();
             services.AddConfigureStartup(Configuration);
             //register controllers as services
             services.AddControllers().AddControllersAsServices();
             //replace `IControllerActivator` implement.
             services.Replace(ServiceDescriptor.Transient<IControllerActivator, AutowiredControllerActivator>());
             //add config to ioc container
-            services.Configure<SnowflakeConfig>(Configuration.GetSection("Snowflake"));
+            //services.Configure<SnowflakeConfig>(Configuration.GetSection("Snowflake"));
             //use auto dependency injection
             services.AutoRegisterDependency(new List<string> { "My.NetCore.FrameworkTest" });
-
-            services.AddDbContext<EntityFrameworkDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,45 +66,45 @@ namespace My.NetCore.FrameworkTest
             });
         }
 
-        public void ConfigureContainer(ContainerBuilder builder)
-        {
-            // 在这里添加服务注册
-            //builder.RegisterType<ProductService>().As<IProductService>();//注册 
-            var cacheType = new List<Type>();
+        //public void ConfigureContainer(ContainerBuilder builder)
+        //{
+        //    // 在这里添加服务注册
+        //    //builder.RegisterType<ProductService>().As<IProductService>();//注册 
+        //    var cacheType = new List<Type>();
 
-            builder.RegisterType<TransactionAOP>();
-            cacheType.Add(typeof(TransactionAOP));
+        //    builder.RegisterType<TransactionAOP>();
+        //    cacheType.Add(typeof(TransactionAOP));
 
-            var assemblys = Assembly.Load("My.NetCore.FrameworkTest");
+        //    var assemblys = Assembly.Load("My.NetCore.FrameworkTest");
 
-            var assemblysServices = assemblys.GetExportedTypes().Where(w => w.IsClass && w.GetCustomAttribute(typeof(ServiceAttribute)) != null);
-            var assemblysRepository = assemblys.GetExportedTypes().Where(w => w.IsClass && w.GetCustomAttribute(typeof(RepositoryAttribute)) != null);
+        //    var assemblysServices = assemblys.GetExportedTypes().Where(w => w.IsClass && w.GetCustomAttribute(typeof(ServiceAttribute)) != null);
+        //    var assemblysRepository = assemblys.GetExportedTypes().Where(w => w.IsClass && w.GetCustomAttribute(typeof(RepositoryAttribute)) != null);
 
-            if (assemblysServices != null && assemblysServices.Any())
-            {
-                foreach (var item in assemblysServices)
-                {
-                    builder.RegisterType(item)
-                          .AsImplementedInterfaces()
-                          .InstancePerDependency()
-                          .EnableInterfaceInterceptors()//引用Autofac.Extras.DynamicProxy;
-                          .InterceptedBy(cacheType.ToArray());//允许将拦截器服务的列表分配给注册。
-                }
-            }
+        //    if (assemblysServices != null && assemblysServices.Any())
+        //    {
+        //        foreach (var item in assemblysServices)
+        //        {
+        //            builder.RegisterType(item)
+        //                  .AsImplementedInterfaces()
+        //                  .InstancePerDependency()
+        //                  .EnableInterfaceInterceptors()//引用Autofac.Extras.DynamicProxy;
+        //                  .InterceptedBy(cacheType.ToArray());//允许将拦截器服务的列表分配给注册。
+        //        }
+        //    }
 
-            if (assemblysRepository != null && assemblysRepository.Any())
-            {
-                foreach (var item in assemblysRepository)
-                {
-                    builder.RegisterType(item)
-                       .AsImplementedInterfaces()
-                       .InstancePerDependency();
-                }
-            }
+        //    if (assemblysRepository != null && assemblysRepository.Any())
+        //    {
+        //        foreach (var item in assemblysRepository)
+        //        {
+        //            builder.RegisterType(item)
+        //               .AsImplementedInterfaces()
+        //               .InstancePerDependency();
+        //        }
+        //    }
 
-            //注册所有控制器
-            var controllersTypesInAssembly = typeof(Startup).Assembly.GetExportedTypes().Where(type => typeof(ControllerBase).IsAssignableFrom(type)).ToArray();
-            builder.RegisterTypes(controllersTypesInAssembly).PropertiesAutowired();
-        }
+        //    //注册所有控制器
+        //    var controllersTypesInAssembly = typeof(Startup).Assembly.GetExportedTypes().Where(type => typeof(ControllerBase).IsAssignableFrom(type)).ToArray();
+        //    builder.RegisterTypes(controllersTypesInAssembly).PropertiesAutowired();
+        //}
     }
 }

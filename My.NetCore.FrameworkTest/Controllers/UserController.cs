@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using My.NetCore.Framework.AOP;
 using My.NetCore.Framework.IOC.Attributes;
 using My.NetCore.FrameworkTest.Services;
 using System;
@@ -10,13 +11,17 @@ namespace My.NetCore.FrameworkTest.Controllers
 {
     public class UserController : Controller
     {
-        [Autowired]
+        //[Autowired]
         private  IUserService _userService { get; set; }
+
+        public UserController(IUserService userService)
+        {
+            _userService = userService;
+        }
 
         [HttpGet]
         public IActionResult Index()
         {
-
             _userService.DoSomeThink();
             var list = _userService.Query(w => w.ID > 1);
             return Json(list);

@@ -27,23 +27,23 @@ namespace My.NetCore.Framework.ORM.SqlSugar
                 InitKeyType = InitKeyType.SystemTable
             });
 
-            client.Aop.OnLogExecuted = (sql, pars) => //SQL执行完事件
-            {
-                Console.WriteLine($"OnLogExecuted({client.GetHashCode()})：" + sql);
-            };
-            client.Aop.OnLogExecuting = (sql, pars) => //SQL执行前事件
-            {
-                Console.WriteLine($"OnLogExecuting({client.GetHashCode()})：" + sql);
-            };
-            client.Aop.OnError = (exp) =>//执行SQL 错误事件
-            {
-                Console.WriteLine($"OnError({client.GetHashCode()})：" + exp.Message);
-            };
-            client.Aop.OnExecutingChangeSql = (sql, pars) => //SQL执行前 可以修改SQL
-            {
-                Console.WriteLine($"OnExecutingChangeSql({client.GetHashCode()})：" + sql);
-                return new KeyValuePair<string, SugarParameter[]>(sql, pars);
-            };
+            //client.Aop.OnLogExecuted = (sql, pars) => //SQL执行完事件
+            //{
+            //    Console.WriteLine($"OnLogExecuted({client.GetHashCode()})：" + sql);
+            //};
+            //client.Aop.OnLogExecuting = (sql, pars) => //SQL执行前事件
+            //{
+            //    Console.WriteLine($"OnLogExecuting({client.GetHashCode()})：" + sql);
+            //};
+            //client.Aop.OnError = (exp) =>//执行SQL 错误事件
+            //{
+            //    Console.WriteLine($"OnError({client.GetHashCode()})：" + exp.Message);
+            //};
+            //client.Aop.OnExecutingChangeSql = (sql, pars) => //SQL执行前 可以修改SQL
+            //{
+            //    Console.WriteLine($"OnExecutingChangeSql({client.GetHashCode()})：" + sql);
+            //    return new KeyValuePair<string, SugarParameter[]>(sql, pars);
+            //};
 
             var key = Guid.NewGuid().ToString().Replace("-", "");
             if (!_cache.ContainsKey(key))

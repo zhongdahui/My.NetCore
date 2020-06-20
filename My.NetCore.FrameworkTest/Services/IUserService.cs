@@ -1,4 +1,5 @@
-﻿using My.NetCore.Framework.ORM;
+﻿using My.NetCore.Framework.Attributes;
+using My.NetCore.Framework.ORM;
 using My.NetCore.FrameworkTest.Entitys;
 using System.Collections.Generic;
 

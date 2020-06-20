@@ -7,7 +7,6 @@ using System.Linq;
 
 namespace My.NetCore.Framework.AOP
 {
-    [Filter]
     public class TransactionAOP : IInterceptor
     {
         public void Intercept(IInvocation invocation)

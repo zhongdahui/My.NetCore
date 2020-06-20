@@ -11,8 +11,13 @@ namespace My.NetCore.FrameworkTest.Services
     [Service]
     public class UserService :  BaseService<UserModel>, IUserService
     {
-        [Autowired]
+        //[Autowired]
         private IUserRepository _userRepository { get; set; }
+
+        public UserService(IUserRepository userRepository)
+        {
+            _userRepository = userRepository;
+        }
 
         public IEnumerable<UserModel> GetUserByID()
         {
@@ -33,10 +38,10 @@ namespace My.NetCore.FrameworkTest.Services
         public void DoSomeThink()
         {
             _userRepository.Insert(new UserModel() { Age = 10, UserName = "myname1", BrithDate = DateTime.Now });
-            int a1 = 10;
-            int a2 = 0;
-            int a3 = a1 / a2;
+            
             _userRepository.Insert(new UserModel() { Age = 20, UserName = "myname2", BrithDate = DateTime.Now });
+
+
         }
     }
 }
