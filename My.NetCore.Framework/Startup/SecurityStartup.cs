@@ -15,8 +15,6 @@ namespace My.NetCore.Framework.Startup
 {
     public static class SecurityStartup
     {
-        [Autowired]
-        private static IOptions<AppSettingOption> Options { get; set; }
         /// <summary>
         /// 启动身份认证
         /// Authentication
@@ -25,7 +23,7 @@ namespace My.NetCore.Framework.Startup
         /// <param name="services"></param>
         public static void AddAuthenticationStartup(this IServiceCollection services)
         {
-            var option = Options;// EnginContext.Current.Resolve<IOptions<AppSettingOption>>();
+            var option = EnginContext.Current.Resolve<IOptions<AppSettingOption>>();
 
             if(option==null) throw new ArgumentNullException(nameof(option));
 
@@ -49,7 +47,7 @@ namespace My.NetCore.Framework.Startup
         /// <param name="services"></param>
         public static void AddJwtAuthenticationStartup(this IServiceCollection services)
         {
-            var option = Options;// EnginContext.Current.Resolve<IOptions<AppSettingOption>>();
+            var option = EnginContext.Current.Resolve<IOptions<AppSettingOption>>();
 
             if (option == null) throw new ArgumentNullException(nameof(option));
 

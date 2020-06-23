@@ -2,7 +2,7 @@
 using AutoMapper.Configuration;
 using Microsoft.Extensions.Options;
 using My.NetCore.Framework.Attributes;
-using My.NetCore.Framework.IOC.Attributes;
+using My.NetCore.Framework.IOC;
 using My.NetCore.Framework.Options;
 using System;
 using System.Collections;
@@ -16,12 +16,9 @@ namespace My.NetCore.Framework.Helpers
     {
         private static IMapper mapper;
 
-        [Autowired]
-        private static IOptions<AppSettingOption> Options { get; set; }
-
         static AutoMapperHelper()
         {
-            var config = Options;// EnginContext.Current.Resolve<IOptions<AppSettingOption>>();
+            var config = EnginContext.Current.Resolve<IOptions<AppSettingOption>>();
 
             if (config == null)
                 throw new ArgumentNullException(nameof(config));

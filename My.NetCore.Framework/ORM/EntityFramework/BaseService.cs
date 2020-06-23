@@ -8,8 +8,7 @@ namespace My.NetCore.Framework.ORM.EntityFramework
     public class BaseService<TEntity> : IBaseServices<TEntity> where TEntity : class, new()
     {
         //通过在子类的构造函数中注入，这里是基类，不用构造函数
-        [Autowired]
-        public IBaseRepository<TEntity> baseRepository { get; set; }
+        public IBaseRepository<TEntity> baseRepository;
 
         public async Task<bool> Delete(TEntity entity)
         {

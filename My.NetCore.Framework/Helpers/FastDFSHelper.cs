@@ -1,12 +1,10 @@
 ﻿using FastDFS.Client;
 using Microsoft.Extensions.Options;
 using My.NetCore.Framework.IOC;
-using My.NetCore.Framework.IOC.Attributes;
 using My.NetCore.Framework.Options;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -14,12 +12,10 @@ namespace My.NetCore.Framework.Helpers
 {
     public class FastDFSHelper
     {
-        [Autowired]
-        private static IOptions<AppSettingOption> Options { get; set; }
 
         static FastDFSHelper()
         {
-            var config = Options;// EnginContext.Current.Resolve<IOptions<AppSettingOption>>();
+            var config = EnginContext.Current.Resolve<IOptions<AppSettingOption>>();
 
             if (config == null)
                 throw new ArgumentNullException(nameof(config));

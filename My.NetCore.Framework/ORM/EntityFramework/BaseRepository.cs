@@ -11,16 +11,15 @@ namespace My.NetCore.Framework.ORM.EntityFramework
 {
     public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class, new()
     {
-        [Autowired]
-        private  EntityFrameworkDbContext _entityFrameworkDbContext { get; set; }
-        //private readonly DbSet<TEntity> _set;
+        private readonly EntityFrameworkDbContext _entityFrameworkDbContext;
+        private readonly DbSet<TEntity> _set;
 
-        //public BaseRepository()
-        //{
-        //    if (_entityFrameworkDbContext == null) throw new ArgumentNullException(nameof(_entityFrameworkDbContext));
-        //    //_entityFrameworkDbContext = entityFrameworkDbContext;
-        //    _set = _entityFrameworkDbContext.Set<TEntity>();
-        //}
+        public BaseRepository(EntityFrameworkDbContext entityFrameworkDbContext)
+        {
+            if (_entityFrameworkDbContext == null) throw new ArgumentNullException(nameof(_entityFrameworkDbContext));
+                _entityFrameworkDbContext = entityFrameworkDbContext;
+            _set = _entityFrameworkDbContext.Set<TEntity>();
+        }
 
         public async Task<bool> Delete(TEntity entity)
         {

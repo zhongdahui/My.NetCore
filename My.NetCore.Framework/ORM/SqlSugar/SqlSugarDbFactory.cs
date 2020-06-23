@@ -10,7 +10,8 @@ namespace My.NetCore.Framework.ORM.SqlSugar
     {
         private static ConcurrentDictionary<string, SqlClient> _cache = new ConcurrentDictionary<string, SqlClient>();
         private static ThreadLocal<string> _threadLocal;
-        private static readonly string _connStr = @"server=10.28.88.238;uid=root;pwd=3$%*(k/{]rtEE5;database=ha_test";
+        //private static readonly string _connStr = @"server=10.28.88.238;uid=root;pwd=3$%*(k/{]rtEE5;database=ha_test";
+        private static readonly string _connStr = @"Server=.;Database=Demo;User ID=sa;Password=aa123123;";
 
         static SqlSugarDbFactory()
         {
@@ -22,15 +23,16 @@ namespace My.NetCore.Framework.ORM.SqlSugar
             SqlSugarClient client = new SqlSugarClient(new ConnectionConfig()
             {
                 ConnectionString = _connStr, //必填
-                DbType = DbType.MySql, //必填
+                DbType = DbType.SqlServer, //必填
                 IsAutoCloseConnection = true, //默认false
-                InitKeyType = InitKeyType.SystemTable
+                //InitKeyType = InitKeyType.SystemTable,
+                IsShardSameThread = true
             });
 
-            //client.Aop.OnLogExecuted = (sql, pars) => //SQL执行完事件
-            //{
-            //    Console.WriteLine($"OnLogExecuted({client.GetHashCode()})：" + sql);
-            //};
+            client.Aop.OnLogExecuted = (sql, pars) => //SQL执行完事件
+            {
+                Console.WriteLine($"OnLogExecuted({client.GetHashCode()})：" + sql);
+            };
             //client.Aop.OnLogExecuting = (sql, pars) => //SQL执行前事件
             //{
             //    Console.WriteLine($"OnLogExecuting({client.GetHashCode()})：" + sql);

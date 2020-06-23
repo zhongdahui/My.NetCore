@@ -18,10 +18,6 @@ namespace My.NetCore.Framework.Helpers
 {
     public static class AuthenticationHelper
     {
-
-        [Autowired]
-        private static IOptions<AppSettingOption> Options { get; set; }
-
         /// <summary>
         /// 登录
         /// </summary>
@@ -56,7 +52,7 @@ namespace My.NetCore.Framework.Helpers
         /// <returns></returns>
         public static string GetJwtToken(TokenOption model)
         {
-            var jwtBearerOption = Options;// EnginContext.Current.Resolve<IOptions<AppSettingOption>>();
+            var jwtBearerOption = EnginContext.Current.Resolve<IOptions<AppSettingOption>>();
 
             //创建用户身份标识，可按需要添加更多信息
             var claims = new Claim[]

@@ -12,9 +12,6 @@ namespace My.NetCore.Framework.Helpers
 {
     public class RedisCacheHelper
     {
-        [Autowired]
-        private static IOptions<AppSettingOption> Options { get; set; }
-
         static CSRedisClient redisManger = null;
         static CSRedisClient GetClient()
         {
@@ -22,7 +19,7 @@ namespace My.NetCore.Framework.Helpers
         }
         static RedisCacheHelper()
         {
-            var config = Options;// EnginContext.Current.Resolve<IOptions<AppSettingOption>>();
+            var config = EnginContext.Current.Resolve<IOptions<AppSettingOption>>();
 
             if (config == null)
                 throw new ArgumentNullException(nameof(config));

@@ -17,12 +17,9 @@ namespace My.NetCore.Framework.Startup
 {
     public static class SwaggerStartup
     {
-        [Autowired]
-        private static IOptions<AppSettingOption> Options { get; set; }
-
         public static void AddSwaggerStartup(this IServiceCollection services)
         {
-            var option = Options;// EnginContext.Current.Resolve<IOptions<AppSettingOption>>();
+            var option = EnginContext.Current.Resolve<IOptions<AppSettingOption>>();
 
             if (option == null) throw new ArgumentNullException(nameof(option));
 

@@ -17,12 +17,9 @@ namespace My.NetCore.Framework.CodeGenerator
         private static readonly string ParentPath;//
         private static readonly AppSettingOption Option;
 
-        [Autowired]
-        private static IOptions<AppSettingOption> Config { get; set; }
-
         static CodeGenerator()
         {
-            Option = Config.Value;// EnginContext.Current.Resolve<IOptions<AppSettingOption>>()?.Value;
+            Option = EnginContext.Current.Resolve<IOptions<AppSettingOption>>()?.Value;
 
             if (Option == null)
             {

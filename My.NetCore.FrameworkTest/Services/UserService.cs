@@ -10,8 +10,7 @@ namespace My.NetCore.FrameworkTest.Services
     [Service]
     public class UserService :  BaseService<UserModel>, IUserService
     {
-        //[Autowired]
-        private IUserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
 
         public UserService(IUserRepository userRepository)
         {
@@ -37,10 +36,10 @@ namespace My.NetCore.FrameworkTest.Services
         [Transaction]
         public void DoSomeThink()
         {
-            _userRepository.Insert(new UserModel() { Age = 10, UserName = "myname1", BrithDate = DateTime.Now });
-            int a = 1;
-            int b = 0;
-            int c = a / b;
+            //_userRepository.Insert(new UserModel() { Age = 10, UserName = "myname1", BrithDate = DateTime.Now });
+            //int a = 1;
+            //int b = 0;
+            //int c = a / b;
             _userRepository.Insert(new UserModel() { Age = 20, UserName = "myname2", BrithDate = DateTime.Now });
         }
     }
