@@ -1,4 +1,4 @@
-﻿using My.NetCore.Framework.IOC.Attributes;
+﻿using My.NetCore.Framework.Attributes;
 using My.NetCore.Framework.ORM.SqlSugar;
 using My.NetCore.FrameworkTest.Entitys;
 using System;

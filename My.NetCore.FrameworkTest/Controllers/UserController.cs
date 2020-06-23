@@ -1,6 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Autofac;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using My.NetCore.Framework.AOP;
+using My.NetCore.Framework.IOC;
 using My.NetCore.Framework.IOC.Attributes;
+using My.NetCore.Framework.Options;
 using My.NetCore.FrameworkTest.Services;
 using System;
 using System.Collections.Generic;
@@ -11,8 +16,8 @@ namespace My.NetCore.FrameworkTest.Controllers
 {
     public class UserController : Controller
     {
-        //[Autowired]
-        private  IUserService _userService { get; set; }
+        ////[Autowired]
+        private IUserService _userService;
 
         public UserController(IUserService userService)
         {
@@ -22,9 +27,17 @@ namespace My.NetCore.FrameworkTest.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            _userService.DoSomeThink();
-            var list = _userService.Query(w => w.ID > 1);
-            return Json(list);
+            //var bb = EnginContext.Current.Resolve<IOptions<AppSettingOption>>();
+
+            //var aa = EnginContext.Current.Resolve<UserService>();
+
+             //_userService.DoSomeThink();
+
+            var test = _userService.Query(w => w.ID > 1);
+
+            
+            //var list = _userService.Query(w => w.ID > 1);
+            return Json(test);
         }
     }
 }

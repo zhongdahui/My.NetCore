@@ -17,7 +17,7 @@ namespace My.NetCore.FrameworkTest.Controllers
 
         public IActionResult Index()
         {
-            int test = options.Value.DataCenter;
+            //int test = options.Value.DataCenter;
 
             return new JsonResult(new { id = 1, name = "abc" });
         }

@@ -1,5 +1,4 @@
 ﻿using My.NetCore.Framework.Attributes;
-using My.NetCore.Framework.IOC.Attributes;
 using My.NetCore.Framework.ORM.EntityFramework;
 using My.NetCore.FrameworkTest.Entitys;
 using My.NetCore.FrameworkTest.Repository;
@@ -12,11 +11,12 @@ namespace My.NetCore.FrameworkTest.Services
     public class UserService :  BaseService<UserModel>, IUserService
     {
         //[Autowired]
-        private IUserRepository _userRepository { get; set; }
+        private IUserRepository _userRepository;
 
         public UserService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
+            base.baseRepository = _userRepository;
         }
 
         public IEnumerable<UserModel> GetUserByID()
@@ -38,10 +38,10 @@ namespace My.NetCore.FrameworkTest.Services
         public void DoSomeThink()
         {
             _userRepository.Insert(new UserModel() { Age = 10, UserName = "myname1", BrithDate = DateTime.Now });
-            
+            int a = 1;
+            int b = 0;
+            int c = a / b;
             _userRepository.Insert(new UserModel() { Age = 20, UserName = "myname2", BrithDate = DateTime.Now });
-
-
         }
     }
 }
