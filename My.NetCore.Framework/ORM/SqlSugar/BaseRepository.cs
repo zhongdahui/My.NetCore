@@ -7,65 +7,98 @@ using System.Threading.Tasks;
 
 namespace My.NetCore.Framework.ORM.SqlSugar
 {
-    public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class, new()
+    public class BaseRepository<TEntity> : Transaction, IBaseRepository<TEntity> where TEntity : class, new()
     {
-        public ISqlSugarClient DbClient { get; set; }
-
-        public BaseRepository()
+        public bool Insert(TEntity entity)
         {
-            DbClient = SqlSugarDbFactory.GetInstance().SqlSugarClient;
+            return DbClient.Insertable(entity).ExecuteReturnIdentity() > 0;
         }
 
-        public async Task<bool> DeleteById(object id)
+        public async Task<bool> InsertAsync(TEntity entity)
         {
-            return await DbClient.Deleteable<TEntity>(id).ExecuteCommandHasChangeAsync();
+            return await DbClient.Insertable(entity).ExecuteCommandAsync() > 0;
         }
 
-        public async Task<bool> DeleteByIds(object[] ids)
+        public bool Insert(IList<TEntity> list)
         {
-            return await DbClient.Deleteable<TEntity>().In(ids).ExecuteCommandHasChangeAsync();
+            return DbClient.Insertable(list.ToArray()).ExecuteReturnIdentity() > 0;
         }
 
-        public async Task<bool> Delete(TEntity entity)
-        {
-            return await DbClient.Deleteable(entity).ExecuteCommandHasChangeAsync();
-        }
-
-        public async Task<bool> Delete(IList<TEntity> list)
-        {
-            return await DbClient.Deleteable(list.ToList()).ExecuteCommandHasChangeAsync();
-        }
-
-        public async Task<bool> Insert(TEntity entity)
-        {
-            return await DbClient.Insertable(entity).ExecuteReturnIdentityAsync() > 0;
-        }
-
-        public async Task<bool> Insert(IList<TEntity> list)
+        public async Task<bool> InsertAsync(IList<TEntity> list)
         {
             return await DbClient.Insertable(list.ToArray()).ExecuteCommandAsync() > 0;
         }
 
-        public IEnumerable<TEntity> Query(Expression<Func<TEntity, bool>> whereLambda)
+        public bool Update(TEntity entity)
         {
-            return DbClient.Queryable<TEntity>().WhereIF(whereLambda != null, whereLambda).ToList();
+            return DbClient.Updateable(entity).ExecuteCommandHasChange();
         }
 
-        public IEnumerable<TEntity> Query(Expression<Func<TEntity, bool>> whereLambda, Expression<Func<TEntity, object>> orderLambda, bool isAsc, int pageIndex, int pageSize, ref int totalCount)
-        {
-            var list = DbClient.Queryable<TEntity>().WhereIF(whereLambda != null, whereLambda);
-            totalCount = list.Count();
-            return list.OrderByIF(orderLambda != null, orderLambda, isAsc ? OrderByType.Asc : OrderByType.Desc).ToPageList(pageIndex, pageSize);
-        }
-
-        public async Task<bool> Update(TEntity entity)
+        public async Task<bool> UpdateAsync(TEntity entity)
         {
             return await DbClient.Updateable(entity).ExecuteCommandHasChangeAsync();
         }
 
-        public async Task<bool> Update(IList<TEntity> list)
+        public bool Update(IList<TEntity> list)
+        {
+            return DbClient.Updateable(list.ToList()).ExecuteCommandHasChange();
+        }
+
+        public async Task<bool> UpdateAsync(IList<TEntity> list)
         {
             return await DbClient.Updateable(list.ToList()).ExecuteCommandHasChangeAsync();
+        }
+
+        public bool DeleteByID(object id)
+        {
+            return DbClient.Deleteable<TEntity>(id).ExecuteCommandHasChange();
+        }
+
+        public async Task<bool> DeleteByIDAsync(object id)
+        {
+            return await DbClient.Deleteable<TEntity>(id).ExecuteCommandHasChangeAsync();
+        }
+
+        public bool DeleteByIds(object[] ids)
+        {
+            return DbClient.Deleteable<TEntity>().In(ids).ExecuteCommandHasChange();
+        }
+
+        public async Task<bool> DeleteByIdsAsync(object[] ids)
+        {
+            return await DbClient.Deleteable<TEntity>().In(ids).ExecuteCommandHasChangeAsync();
+        }
+
+        public bool Delete(TEntity entity)
+        {
+            return DbClient.Deleteable(entity).ExecuteCommandHasChange();
+        }
+
+        public async Task<bool> DeleteAsync(TEntity entity)
+        {
+            return await DbClient.Deleteable(entity).ExecuteCommandHasChangeAsync();
+        }
+
+        public bool Delete(IList<TEntity> list)
+        {
+            return DbClient.Deleteable(list.ToList()).ExecuteCommandHasChange();
+        }
+
+        public async Task<bool> DeleteAsync(IList<TEntity> list)
+        {
+            return await DbClient.Deleteable(list.ToList()).ExecuteCommandHasChangeAsync();
+        }
+
+        public IEnumerable<TEntity> GetList(Expression<Func<TEntity, bool>> whereLambda)
+        {
+            return DbClient.Queryable<TEntity>().WhereIF(whereLambda != null, whereLambda).ToList();
+        }
+
+        public IEnumerable<TEntity> GetList(Expression<Func<TEntity, bool>> whereLambda, Expression<Func<TEntity, object>> orderLambda, bool isAsc, int pageIndex, int pageSize, ref int totalCount)
+        {
+            var list = DbClient.Queryable<TEntity>().WhereIF(whereLambda != null, whereLambda);
+            totalCount = list.Count();
+            return list.OrderByIF(orderLambda != null, orderLambda, isAsc ? OrderByType.Asc : OrderByType.Desc).ToPageList(pageIndex, pageSize);
         }
 
         public IEnumerable<T> SqlQuery<T>(string sql)

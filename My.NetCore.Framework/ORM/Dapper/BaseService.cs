@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -8,44 +7,96 @@ namespace My.NetCore.Framework.ORM.Dapper
 {
     public class BaseService<TEntity> : IBaseServices<TEntity> where TEntity : class, new()
     {
-        public Task<bool> Delete(TEntity entity)
+        public IBaseRepository<TEntity> baseRepository;
+
+        public bool Insert(TEntity entity)
         {
-            throw new NotImplementedException();
+            return baseRepository.Insert(entity);
         }
 
-        public Task<bool> Delete(IList<TEntity> list)
+        public async Task<bool> InsertAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            return await baseRepository.InsertAsync(entity);
         }
 
-        public Task<bool> Insert(TEntity entity)
+        public bool Insert(IList<TEntity> list)
         {
-            throw new NotImplementedException();
+            return baseRepository.Insert(list);
         }
 
-        public Task<bool> Insert(IList<TEntity> list)
+        public async Task<bool> InsertAsync(IList<TEntity> list)
         {
-            throw new NotImplementedException();
+            return await baseRepository.InsertAsync(list);
         }
 
-        public IEnumerable<TEntity> Query(Expression<Func<TEntity, bool>> whereLambda)
+        public bool Update(TEntity entity)
         {
-            throw new NotImplementedException();
+            return baseRepository.Update(entity);
         }
 
-        public IEnumerable<TEntity> Query(Expression<Func<TEntity, bool>> whereLambda, Expression<Func<TEntity, object>> orderLambda, bool isAsc, int pageIndex, int pageSize, ref int totalCount)
+        public async Task<bool> UpdateAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            return await baseRepository.UpdateAsync(entity);
         }
 
-        public Task<bool> Update(TEntity entity)
+        public bool Update(IList<TEntity> list)
         {
-            throw new NotImplementedException();
+            return baseRepository.Update(list);
         }
 
-        public Task<bool> Update(IList<TEntity> list)
+        public async Task<bool> UpdateAsync(IList<TEntity> list)
         {
-            throw new NotImplementedException();
+            return await baseRepository.UpdateAsync(list);
+        }
+
+        public bool DeleteByID(object id)
+        {
+            return baseRepository.DeleteByID(id);
+        }
+
+        public async Task<bool> DeleteByIDAsync(object id)
+        {
+            return await baseRepository.DeleteByIDAsync(id);
+        }
+
+        public bool DeleteByIds(object[] ids)
+        {
+            return baseRepository.DeleteByIds(ids);
+        }
+
+        public async Task<bool> DeleteByIdsAsync(object[] ids)
+        {
+            return await baseRepository.DeleteByIdsAsync(ids);
+        }
+
+        public bool Delete(TEntity entity)
+        {
+            return baseRepository.Delete(entity);
+        }
+
+        public async Task<bool> DeleteAsync(TEntity entity)
+        {
+            return await baseRepository.DeleteAsync(entity);
+        }
+
+        public bool Delete(IList<TEntity> list)
+        {
+            return baseRepository.Delete(list);
+        }
+
+        public async Task<bool> DeleteAsync(IList<TEntity> list)
+        {
+            return await baseRepository.DeleteAsync(list);
+        }
+
+        public IEnumerable<TEntity> GetList(Expression<Func<TEntity, bool>> whereLambda)
+        {
+            return baseRepository.GetList(whereLambda);
+        }
+
+        public IEnumerable<TEntity> GetList(Expression<Func<TEntity, bool>> whereLambda, Expression<Func<TEntity, object>> orderLambda, bool isAsc, int pageIndex, int pageSize, ref int totalCount)
+        {
+            return baseRepository.GetList(whereLambda, orderLambda, isAsc, pageIndex, pageSize, ref totalCount);
         }
     }
 }

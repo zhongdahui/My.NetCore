@@ -6,36 +6,28 @@ using System.Threading.Tasks;
 
 namespace My.NetCore.Framework.ORM.EntityFramework
 {
-    public class Transaction<TDbContext> : ITransaction where TDbContext : DbContext
+    public class Transaction : ITransaction
     {
-        private readonly TDbContext _dbContext;
+        private readonly EntityFrameworkDbContext _entityFrameworkDbContext;
 
-        public Transaction(TDbContext dbContext)
+        public Transaction(EntityFrameworkDbContext entityFrameworkDbContext)
         {
-            _dbContext = dbContext;
+            _entityFrameworkDbContext = entityFrameworkDbContext;
         }
 
         public void BeginTran()
         {
-            _dbContext.Database.BeginTransaction();
+            _entityFrameworkDbContext.Database.BeginTransaction();
         }
 
         public void CommitTran()
         {
-            try
-            {
-                _dbContext.Database.CommitTransaction();
-            }
-            catch (Exception ex)
-            {
-                _dbContext.Database.RollbackTransaction();
-                throw ex;
-            }
+            _entityFrameworkDbContext.Database.CommitTransaction();
         }
 
         public void RollbackTran()
         {
-            _dbContext.Database.RollbackTransaction();
+            _entityFrameworkDbContext.Database.RollbackTransaction();
         }
     }
 }

@@ -1,14 +1,23 @@
 ﻿using Castle.DynamicProxy;
 using My.NetCore.Framework.Attributes;
+using My.NetCore.Framework.ORM;
 using My.NetCore.Framework.ORM.SqlSugar;
 using System;
 using System.Linq;
+using System.Transactions;
 
 namespace My.NetCore.Framework.AOP
 {
     [Filter]
     public class TransactionAOP : IInterceptor
     {
+        private readonly ITransaction _transaction;
+
+        public TransactionAOP(ITransaction transaction)
+        {
+            _transaction = transaction;
+        }
+
         public void Intercept(IInvocation invocation)
         {
             var method = invocation.MethodInvocationTarget ?? invocation.Method;

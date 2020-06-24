@@ -4,6 +4,7 @@ using My.NetCore.FrameworkTest.Entitys;
 using My.NetCore.FrameworkTest.Repository;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace My.NetCore.FrameworkTest.Services
 {
@@ -20,7 +21,7 @@ namespace My.NetCore.FrameworkTest.Services
 
         public IEnumerable<UserModel> GetUserByID()
         {
-            return _userRepository.Query(w => w.ID > 1);
+            return _userRepository.GetList(w => w.ID > 1);
         }
 
         public UserModel GetUserByID(int id, string name)
@@ -33,14 +34,26 @@ namespace My.NetCore.FrameworkTest.Services
             return null;
         }
 
-        [Transaction]
+        //[Transaction]
         public void DoSomeThink()
         {
-            //_userRepository.Insert(new UserModel() { Age = 10, UserName = "myname1", BrithDate = DateTime.Now });
+            //try
+            //{
+            //    _userRepository.BeginTran();
+
+            var test1 = _userRepository.Insert(new UserModel() { Age = 10, UserName = "myname1", BrithDate = DateTime.Now });
             //int a = 1;
             //int b = 0;
             //int c = a / b;
-            _userRepository.Insert(new UserModel() { Age = 20, UserName = "myname2", BrithDate = DateTime.Now });
+            var test2 = _userRepository.Insert(new UserModel() { Age = 20, UserName = "myname2", BrithDate = DateTime.Now });
+
+            //_userRepository.CommitTran();
+            //}
+            //catch (Exception ex)
+            //{
+            //    _userRepository.RollbackTran();
+            //    throw ex;
+            //}
         }
     }
 }

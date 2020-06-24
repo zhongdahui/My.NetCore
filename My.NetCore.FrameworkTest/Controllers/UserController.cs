@@ -32,8 +32,9 @@ namespace My.NetCore.FrameworkTest.Controllers
             //var aa = EnginContext.Current.Resolve<UserService>();
 
             _userService.DoSomeThink();
+            //_userService.DoSomeThink();
 
-            var list = _userService.Query(w => w.ID > 1);
+            var list =  _userService.GetList(w => w.ID > 1);
             return Json(list);
         }
     }

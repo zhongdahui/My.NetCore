@@ -5,44 +5,26 @@ namespace My.NetCore.Framework.ORM.SqlSugar
 {
     public class Transaction : ITransaction
     {
-        private ISqlSugarClient SqlSugarClient { get; set; }
+        protected ISqlSugarClient DbClient { get; set; }
 
-        public Transaction(IDbFactory dbFactory)
+        public Transaction()
         {
-            SqlSugarClient = dbFactory.GetDbContext();
-        }
-
-        /// <summary>
-        /// 获取DB，保证唯一性
-        /// </summary>
-        /// <returns></returns>
-        public SqlSugarClient GetDbClient()
-        {
-            // 必须要as，后边会用到切换数据库操作
-            return SqlSugarClient as SqlSugarClient;
+            DbClient = SqlSugarDbFactory.GetInstance().SqlSugarClient;
         }
 
         public void BeginTran()
         {
-            GetDbClient().BeginTran();
+            DbClient.Ado.CommitTran();
         }
 
         public void CommitTran()
         {
-            try
-            {
-                GetDbClient().CommitTran();
-            }
-            catch (Exception ex)
-            {
-                GetDbClient().RollbackTran();
-                throw ex;
-            }
+            DbClient.Ado.CommitTran();
         }
 
         public void RollbackTran()
         {
-            GetDbClient().RollbackTran();
+            DbClient.Ado.RollbackTran();
         }
     }
 }

@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using My.NetCore.Framework.Attributes;
 using My.NetCore.Framework.Helpers;
+using My.NetCore.Framework.ORM.EntityFramework;
 using My.NetCore.Framework.Startup;
 using My.NetCore.FrameworkTest.Services;
 
@@ -32,6 +33,7 @@ namespace My.NetCore.FrameworkTest
             services.AddEngineStartup();
             //register controllers as services
             services.AddControllers();//.AddControllersAsServices();
+            services.AddDbContext<EntityFrameworkDbContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

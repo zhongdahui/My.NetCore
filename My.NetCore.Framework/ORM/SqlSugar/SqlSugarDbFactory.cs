@@ -11,7 +11,7 @@ namespace My.NetCore.Framework.ORM.SqlSugar
         private static ConcurrentDictionary<string, SqlClient> _cache = new ConcurrentDictionary<string, SqlClient>();
         private static ThreadLocal<string> _threadLocal;
         //private static readonly string _connStr = @"server=10.28.88.238;uid=root;pwd=3$%*(k/{]rtEE5;database=ha_test";
-        private static readonly string _connStr = @"Server=.;Database=Demo;User ID=sa;Password=aa123123;";
+        private static readonly string _connStr = @"Server=.;Database=Demo;User ID=sa;Password=1qazXSW@;MultipleActiveResultSets=true;";
 
         static SqlSugarDbFactory()
         {
@@ -25,7 +25,7 @@ namespace My.NetCore.Framework.ORM.SqlSugar
                 ConnectionString = _connStr, //必填
                 DbType = DbType.SqlServer, //必填
                 IsAutoCloseConnection = true, //默认false
-                //InitKeyType = InitKeyType.SystemTable,
+                InitKeyType = InitKeyType.SystemTable,
                 IsShardSameThread = true
             });
 
@@ -62,6 +62,7 @@ namespace My.NetCore.Framework.ORM.SqlSugar
             var id = _threadLocal.Value;
             if (string.IsNullOrEmpty(id) || !_cache.ContainsKey(id))
                 return new SqlClient(CreatInstance());
+            Console.WriteLine("GetInstance:" + _cache[id].SqlSugarClient.GetHashCode());
             return _cache[id];
         }
 
@@ -110,9 +111,11 @@ namespace My.NetCore.Framework.ORM.SqlSugar
         public static void BeginTran()
         {
             var instance = GetInstance();
+
             //开启事务
             if (!instance.IsBeginTran)
             {
+                Console.WriteLine("BeginTran:" + instance.SqlSugarClient.GetHashCode());
                 instance.SqlSugarClient.Ado.BeginTran();
                 instance.IsBeginTran = true;
             }
@@ -125,6 +128,7 @@ namespace My.NetCore.Framework.ORM.SqlSugar
                 throw new Exception("内部错误: SqlSugarClient已丢失.");
             if (_cache[id].TranCount == 0)
             {
+                Console.WriteLine("CommitTran:" + _cache[id].SqlSugarClient.GetHashCode());
                 _cache[id].SqlSugarClient.Ado.CommitTran();
                 _cache[id].IsBeginTran = false;
             }
@@ -135,6 +139,7 @@ namespace My.NetCore.Framework.ORM.SqlSugar
             var id = GetId();
             if (!_cache.ContainsKey(id))
                 throw new Exception("内部错误: SqlSugarClient已丢失.");
+            Console.WriteLine("RollbackTran:" + _cache[id].SqlSugarClient.GetHashCode());
             _cache[id].SqlSugarClient.Ado.RollbackTran();
             _cache[id].IsBeginTran = false;
             _cache[id].TranCount = 0;
@@ -145,6 +150,7 @@ namespace My.NetCore.Framework.ORM.SqlSugar
             var id = GetId();
             if (!_cache.ContainsKey(id))
                 throw new Exception("内部错误: SqlSugarClient已丢失.");
+            Console.WriteLine("TranCountAddOne:" + _cache[id].SqlSugarClient.GetHashCode());
             _cache[id].TranCount++;
         }
 
@@ -153,6 +159,7 @@ namespace My.NetCore.Framework.ORM.SqlSugar
             var id = GetId();
             if (!_cache.ContainsKey(id))
                 throw new Exception("内部错误: SqlSugarClient已丢失.");
+            Console.WriteLine("TranCountMunisOne:" + _cache[id].SqlSugarClient.GetHashCode());
             _cache[id].TranCount--;
         }
     }
