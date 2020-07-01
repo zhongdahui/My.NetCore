@@ -39,6 +39,10 @@ namespace My.NetCore.Framework.ORM
 
         Task<bool> DeleteAsync(IList<TEntity> list);
 
+        TEntity GetModel(object id);
+
+        Task<TEntity> GetModelAsync(object id);
+
         IEnumerable<TEntity> GetList(Expression<Func<TEntity, bool>> whereLambda);
 
         IEnumerable<TEntity> GetList(Expression<Func<TEntity, bool>> whereLambda, Expression<Func<TEntity, object>> orderLambda, bool isAsc, int pageIndex, int pageSize, ref int totalCount);

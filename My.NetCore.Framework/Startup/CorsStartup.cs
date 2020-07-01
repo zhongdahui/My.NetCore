@@ -19,9 +19,9 @@ namespace My.NetCore.Framework.Startup
             });
         }
 
-        public static void UseCorsMiddleware(this IApplicationBuilder builder)
+        public static IApplicationBuilder UseCorsMiddleware(this IApplicationBuilder builder)
         {
-            builder.UseCors(MyAllowSpecificOrigins);
+            return builder.UseCors(MyAllowSpecificOrigins);
         }
     }
 }

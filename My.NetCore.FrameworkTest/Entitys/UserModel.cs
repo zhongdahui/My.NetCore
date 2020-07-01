@@ -1,17 +1,19 @@
 ﻿using SqlSugar;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace My.NetCore.FrameworkTest.Entitys
 {
-    //[SugarTable("db_user")]
-    [Table("db_user")]
+    [SugarTable("db_user")]
+    //[Table("db_user")]
     public class UserModel
     {
-
+        //[Key]
+        [SugarColumn(IsPrimaryKey = true, IsIdentity = true,ColumnName ="id")]
         public int ID { get; set; }
 
         public string UserName { get; set; }

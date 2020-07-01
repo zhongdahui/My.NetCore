@@ -28,20 +28,21 @@ namespace My.NetCore.Framework.AOP
             {
                 try
                 {
-                    SqlSugarDbFactory.BeginTran();
-                    SqlSugarDbFactory.TranCountAddOne();
-
+                    //SqlSugarDbFactory.BeginTran();
+                    //SqlSugarDbFactory.TranCountAddOne();
+                    _transaction.BeginTran();
                     //实现事务性工作
                     invocation.Proceed();
-
-                    SqlSugarDbFactory.TranCountMunisOne();
-                    SqlSugarDbFactory.CommitTran();
+                    _transaction.CommitTran();
+                    //SqlSugarDbFactory.TranCountMunisOne();
+                    //SqlSugarDbFactory.CommitTran();
                 }
                 catch (Exception ex)
                 {
-                    SqlSugarDbFactory.RollbackTran();
+                    _transaction.RollbackTran();
+                    //SqlSugarDbFactory.RollbackTran();
                     // 记录异常
-                    throw ex;
+                   throw ex;
                 }
             }
             else

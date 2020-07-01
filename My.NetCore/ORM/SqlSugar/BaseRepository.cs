@@ -38,7 +38,7 @@ namespace My.NetCore.ORM.SqlSugar
 
         public async Task<bool> Insert(TEntity entity)
         {
-            return await DbClient.Insertable(entity).ExecuteReturnIdentityAsync() > 0;
+            return await DbClient.Insertable(entity).ExecuteCommandIdentityIntoEntityAsync();
         }
 
         public async Task<bool> Insert(IList<TEntity> list)

@@ -1,5 +1,5 @@
 ﻿using My.NetCore.Framework.Attributes;
-using My.NetCore.Framework.ORM.EntityFramework;
+using My.NetCore.Framework.ORM.SqlSugar;
 using My.NetCore.FrameworkTest.Entitys;
 using My.NetCore.FrameworkTest.Repository;
 using System;
@@ -34,7 +34,7 @@ namespace My.NetCore.FrameworkTest.Services
             return null;
         }
 
-        //[Transaction]
+        [Transaction]
         public void DoSomeThink()
         {
             //try

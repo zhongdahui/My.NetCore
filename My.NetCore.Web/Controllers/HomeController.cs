@@ -9,8 +9,11 @@ using My.NetCore.Web.Entitys;
 
 namespace My.NetCore.Web.Controllers
 {
+    [Route("[Controller]/[Action]")]
+    [ApiController]
     public class HomeController : Controller
     {
+        [HttpGet]
         public IActionResult Index()
         {
             var test = My.NetCore.Helpers.ValidateCodeHelper.GetVerifyCode();
@@ -29,6 +32,7 @@ namespace My.NetCore.Web.Controllers
             return Json(aa);
         }
 
+        [HttpPost]
         public IActionResult Test()
         {
             return Json("完成");

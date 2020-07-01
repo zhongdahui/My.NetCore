@@ -22,6 +22,7 @@ namespace My.NetCore.Framework.ORM.EntityFramework
 
         public bool Insert(TEntity entity)
         {
+            Console.WriteLine(_entityFrameworkDbContext.ContextId.GetHashCode());
             _entityFrameworkDbContext.Add(entity);
             return _entityFrameworkDbContext.SaveChanges() > 0;
         }
@@ -34,14 +35,36 @@ namespace My.NetCore.Framework.ORM.EntityFramework
 
         public bool Insert(IList<TEntity> list)
         {
-            _entityFrameworkDbContext.Add(list);
-            return _entityFrameworkDbContext.SaveChanges() > 0;
+            if(list!=null&&list.Count>0)
+            {
+                foreach (var item in list)
+                {
+                    _entityFrameworkDbContext.Add(item);
+                }
+
+                return _entityFrameworkDbContext.SaveChanges() > 0;
+            }
+            else
+            {
+                throw new NullReferenceException("参数不能为空！");
+            }
         }
 
         public async Task<bool> InsertAsync(IList<TEntity> list)
         {
-            _entityFrameworkDbContext.Add(list);
-            return await _entityFrameworkDbContext.SaveChangesAsync() > 0;
+            if (list != null && list.Count > 0)
+            {
+                foreach (var item in list)
+                {
+                    _entityFrameworkDbContext.Add(item);
+                }
+
+                return await _entityFrameworkDbContext.SaveChangesAsync() > 0;
+            }
+            else
+            {
+                throw new NullReferenceException("参数不能为空！");
+            }
         }
 
         public bool Update(TEntity entity)
@@ -58,34 +81,86 @@ namespace My.NetCore.Framework.ORM.EntityFramework
 
         public bool Update(IList<TEntity> list)
         {
-            _entityFrameworkDbContext.Update(list);
-            return _entityFrameworkDbContext.SaveChanges() > 0;
+            if (list != null && list.Count > 0)
+            {
+                foreach (var item in list)
+                {
+                    _entityFrameworkDbContext.Update(item);
+                }
+
+                return _entityFrameworkDbContext.SaveChanges() > 0;
+            }
+            else
+            {
+                throw new NullReferenceException("参数不能为空！");
+            }
         }
 
         public async Task<bool> UpdateAsync(IList<TEntity> list)
         {
-            _entityFrameworkDbContext.Update(list);
-            return await _entityFrameworkDbContext.SaveChangesAsync() > 0;
+            if (list != null && list.Count > 0)
+            {
+                foreach (var item in list)
+                {
+                    _entityFrameworkDbContext.Update(item);
+                }
+
+                return await _entityFrameworkDbContext.SaveChangesAsync() > 0;
+            }
+            else
+            {
+                throw new NullReferenceException("参数不能为空！");
+            }
         }
 
         public bool DeleteByID(object id)
         {
-            throw new NotImplementedException();
+            var model = _entityFrameworkDbContext.Set<TEntity>().Find(id);
+            _entityFrameworkDbContext.Set<TEntity>().Remove(model);
+            return _entityFrameworkDbContext.SaveChanges() > 0;
         }
 
         public async Task<bool> DeleteByIDAsync(object id)
         {
-            throw new NotImplementedException();
+            var model = await _entityFrameworkDbContext.Set<TEntity>().FindAsync(id);
+            _entityFrameworkDbContext.Set<TEntity>().Remove(model);
+            return await _entityFrameworkDbContext.SaveChangesAsync() > 0;
         }
 
         public bool DeleteByIds(object[] ids)
         {
-            throw new NotImplementedException();
+            if (ids != null && ids.Length > 0)
+            {
+                foreach (var id in ids)
+                {
+                    var model = _entityFrameworkDbContext.Set<TEntity>().Find(id);
+                    _entityFrameworkDbContext.Set<TEntity>().Remove(model);
+                }
+
+                return _entityFrameworkDbContext.SaveChanges() > 0;
+            }
+            else
+            {
+                throw new NullReferenceException("参数不能为空！");
+            }
         }
 
         public async Task<bool> DeleteByIdsAsync(object[] ids)
         {
-            throw new NotImplementedException();
+            if (ids != null && ids.Length > 0)
+            {
+                foreach (var id in ids)
+                {
+                    var model = await _entityFrameworkDbContext.Set<TEntity>().FindAsync(id);
+                    _entityFrameworkDbContext.Set<TEntity>().Remove(model);
+                }
+
+                return await _entityFrameworkDbContext.SaveChangesAsync() > 0;
+            }
+            else
+            {
+                throw new NullReferenceException("参数不能为空！");
+            }
         }
 
         public bool Delete(TEntity entity)
@@ -102,14 +177,46 @@ namespace My.NetCore.Framework.ORM.EntityFramework
 
         public bool Delete(IList<TEntity> list)
         {
-            _entityFrameworkDbContext.Remove(list);
-            return _entityFrameworkDbContext.SaveChanges() > 0;
+            if (list != null && list.Count > 0)
+            {
+                foreach (var item in list)
+                {
+                    _entityFrameworkDbContext.Set<TEntity>().Remove(item);
+                }
+
+                return _entityFrameworkDbContext.SaveChanges() > 0;
+            }
+            else
+            {
+                throw new NullReferenceException("参数不能为空！");
+            }
         }
 
         public async Task<bool> DeleteAsync(IList<TEntity> list)
         {
-            _entityFrameworkDbContext.Remove(list);
-            return await _entityFrameworkDbContext.SaveChangesAsync() > 0;
+            if (list != null && list.Count > 0)
+            {
+                foreach (var item in list)
+                {
+                    _entityFrameworkDbContext.Set<TEntity>().Remove(item);
+                }
+
+                return await _entityFrameworkDbContext.SaveChangesAsync() > 0;
+            }
+            else
+            {
+                throw new NullReferenceException("参数不能为空！");
+            }
+        }
+
+        public TEntity GetModel(object id)
+        {
+            return _entityFrameworkDbContext.Set<TEntity>().Find(id);
+        }
+
+        public async Task<TEntity> GetModelAsync(object id)
+        {
+            return await _entityFrameworkDbContext.Set<TEntity>().FindAsync(id);
         }
 
         public IEnumerable<TEntity> GetList(Expression<Func<TEntity, bool>> whereLambda)

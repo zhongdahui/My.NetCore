@@ -31,7 +31,8 @@ namespace My.NetCore.Framework.ORM.SqlSugar
 
             client.Aop.OnLogExecuted = (sql, pars) => //SQL执行完事件
             {
-                Console.WriteLine($"OnLogExecuted({client.GetHashCode()})：" + sql);
+                //Console.WriteLine($"OnLogExecuted({client.GetHashCode()})：" + sql);
+                Console.WriteLine($"ExecuteSql：[{sql}] {GetParas(pars)}");
             };
             //client.Aop.OnLogExecuting = (sql, pars) => //SQL执行前事件
             //{
@@ -55,6 +56,23 @@ namespace My.NetCore.Framework.ORM.SqlSugar
                 return client;
             }
             throw new Exception("创建SqlSugarClient失败");
+        }
+
+        private static string GetParas(SugarParameter[] pars)
+        {
+            if (pars != null && pars.Length > 0)
+            {
+                string key = "Parameter：";
+
+                foreach (var param in pars)
+                {
+                    key += $"[{param.ParameterName}:{param.Value}]";
+                }
+
+                return key;
+            }
+
+            return "";
         }
 
         public static SqlClient GetInstance()

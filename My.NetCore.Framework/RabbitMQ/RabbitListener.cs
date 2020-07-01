@@ -58,7 +58,7 @@ namespace My.NetCore.Framework.RabbitMQ
 
             consumer.Received += (model, ea) =>
             {
-                var body = ea.Body;
+                var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
                 var result = Process(message);
                 if (result)

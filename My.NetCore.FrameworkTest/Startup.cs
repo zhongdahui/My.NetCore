@@ -2,17 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 using Autofac;
-using Autofac.Extras.DynamicProxy;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using My.NetCore.Framework.Attributes;
+using My.NetCore.Framework.Filters;
 using My.NetCore.Framework.Helpers;
 using My.NetCore.Framework.ORM.EntityFramework;
 using My.NetCore.Framework.Startup;
+using My.NetCore.Framework.Utils;
 using My.NetCore.FrameworkTest.Services;
 
 namespace My.NetCore.FrameworkTest
@@ -26,17 +29,21 @@ namespace My.NetCore.FrameworkTest
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddConfigureStartup(Configuration);
+            services.AddControllers(config => { config.Filters.Add(typeof(GlobalExceptionFilter)); }).AddControllersAsServices().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new DateTimeConverter());
+                options.JsonSerializerOptions.Encoder = JavaScriptEncoder.Create(UnicodeRanges.All);
+            });
             services.AddEngineStartup();
-            //register controllers as services
-            services.AddControllers();//.AddControllersAsServices();
-            services.AddDbContext<EntityFrameworkDbContext>();
+            //services.AddDbContext<EntityFrameworkDbContext>();
+            services.AddJwtAuthenticationStartup();
+            services.AddSwaggerStartup();
+            services.AddCorsStartup();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -44,8 +51,15 @@ namespace My.NetCore.FrameworkTest
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseSwaggerMiddleware();
+
+            app.UseStaticFiles();
+
             app.UseRouting();
 
+            app.UseCorsMiddleware();
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

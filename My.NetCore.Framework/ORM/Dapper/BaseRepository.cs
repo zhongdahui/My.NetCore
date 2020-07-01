@@ -88,6 +88,16 @@ namespace My.NetCore.Framework.ORM.Dapper
             throw new NotImplementedException();
         }
 
+        public TEntity GetModel(object id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<TEntity> GetModelAsync(object id)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<TEntity> GetList(Expression<Func<TEntity, bool>> whereLambda)
         {
             throw new NotImplementedException();

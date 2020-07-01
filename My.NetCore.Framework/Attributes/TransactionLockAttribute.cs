@@ -13,14 +13,20 @@ namespace My.NetCore.Framework.Attributes
     {
         public string Name { get; set; }
 
+        /// <summary>
+        /// 锁定超时时间
+        /// </summary>
+        public int LockTime { get; set; }
+
         public TransactionLockAttribute()
         {
 
         }
 
-        public TransactionLockAttribute(string name)
+        public TransactionLockAttribute(string name, int lockTime = 60)
         {
             Name = name;
+            LockTime = lockTime;
         }
     }
 }

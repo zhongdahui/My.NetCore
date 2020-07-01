@@ -25,7 +25,7 @@ namespace My.NetCore.Framework.Helpers
         /// </summary>
         /// <param name="password"></param>
         /// <returns></returns>
-        public static string MD5Encrypt32(string password = "")
+        public static string MD5Encrypt32(string password)
         {
             string pwd = string.Empty;
             try

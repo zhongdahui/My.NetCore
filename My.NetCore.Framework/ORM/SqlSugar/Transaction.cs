@@ -14,17 +14,22 @@ namespace My.NetCore.Framework.ORM.SqlSugar
 
         public void BeginTran()
         {
-            DbClient.Ado.CommitTran();
+            //DbClient.Ado.CommitTran();
+            SqlSugarDbFactory.BeginTran();
+            SqlSugarDbFactory.TranCountAddOne();
         }
 
         public void CommitTran()
         {
-            DbClient.Ado.CommitTran();
+            //DbClient.Ado.CommitTran();
+            SqlSugarDbFactory.TranCountMunisOne();
+            SqlSugarDbFactory.CommitTran();
         }
 
         public void RollbackTran()
         {
-            DbClient.Ado.RollbackTran();
+            //DbClient.Ado.RollbackTran();
+            SqlSugarDbFactory.RollbackTran();
         }
     }
 }

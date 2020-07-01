@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using My.NetCore.Framework.IOC;
-using My.NetCore.Framework.IOC.Attributes;
 using My.NetCore.Framework.Options;
 using Swashbuckle.AspNetCore.Filters;
 using System;

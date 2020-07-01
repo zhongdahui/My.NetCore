@@ -90,6 +90,16 @@ namespace My.NetCore.Framework.ORM.EntityFramework
             return await baseRepository.DeleteAsync(list);
         }
 
+        public TEntity GetModel(object id)
+        {
+            return baseRepository.GetModel(id);
+        }
+
+        public async Task<TEntity> GetModelAsync(object id)
+        {
+            return await baseRepository.GetModelAsync(id);
+        }
+
         public IEnumerable<TEntity> GetList(Expression<Func<TEntity, bool>> whereLambda)
         {
             return baseRepository.GetList(whereLambda);

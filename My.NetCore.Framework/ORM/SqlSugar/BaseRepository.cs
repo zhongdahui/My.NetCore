@@ -11,17 +11,17 @@ namespace My.NetCore.Framework.ORM.SqlSugar
     {
         public bool Insert(TEntity entity)
         {
-            return DbClient.Insertable(entity).ExecuteReturnIdentity() > 0;
+            return DbClient.Insertable(entity).ExecuteCommandIdentityIntoEntity();
         }
 
         public async Task<bool> InsertAsync(TEntity entity)
         {
-            return await DbClient.Insertable(entity).ExecuteCommandAsync() > 0;
+            return await DbClient.Insertable(entity).ExecuteCommandIdentityIntoEntityAsync();
         }
 
         public bool Insert(IList<TEntity> list)
         {
-            return DbClient.Insertable(list.ToArray()).ExecuteReturnIdentity() > 0;
+            return DbClient.Insertable(list.ToArray()).ExecuteCommand() > 0;
         }
 
         public async Task<bool> InsertAsync(IList<TEntity> list)
@@ -87,6 +87,16 @@ namespace My.NetCore.Framework.ORM.SqlSugar
         public async Task<bool> DeleteAsync(IList<TEntity> list)
         {
             return await DbClient.Deleteable(list.ToList()).ExecuteCommandHasChangeAsync();
+        }
+
+        public TEntity GetModel(object id)
+        {
+            return DbClient.Queryable<TEntity>().InSingle(id);
+        }
+
+        public async Task<TEntity> GetModelAsync(object id)
+        {
+            return await DbClient.Queryable<TEntity>().InSingleAsync(id);
         }
 
         public IEnumerable<TEntity> GetList(Expression<Func<TEntity, bool>> whereLambda)
