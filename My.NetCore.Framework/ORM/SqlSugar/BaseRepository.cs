@@ -21,6 +21,8 @@ namespace My.NetCore.Framework.ORM.SqlSugar
 
         public bool Insert(IList<TEntity> list)
         {
+            List<TEntity> lisss = new List<TEntity>();
+
             return DbClient.Insertable(list.ToArray()).ExecuteCommand() > 0;
         }
 

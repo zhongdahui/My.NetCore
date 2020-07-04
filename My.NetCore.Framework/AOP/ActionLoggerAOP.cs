@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace My.NetCore.Framework.AOP
 {
+    [Filter]
     public class ActionLoggerAOP : IInterceptor
     {
         private readonly ILogger<ActionLoggerAOP> _logger;

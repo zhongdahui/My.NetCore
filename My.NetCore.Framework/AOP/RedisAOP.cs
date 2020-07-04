@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace My.NetCore.Framework.AOP
 {
+    [Filter]
     public class RedisAOP : IInterceptor
-    {
+    {  
         public void Intercept(IInvocation invocation)
         {
             var method = invocation.MethodInvocationTarget ?? invocation.Method;

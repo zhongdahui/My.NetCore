@@ -34,6 +34,7 @@ namespace My.NetCore.FrameworkTest.Services
             return null;
         }
 
+        [ActionLogger]
         [Transaction]
         public void DoSomeThink()
         {

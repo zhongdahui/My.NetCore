@@ -45,7 +45,7 @@ namespace My.NetCore.FrameworkTest.Controllers
             //var bb = EnginContext.Current.Resolve<IOptions<AppSettingOption>>();
             //var aa = EnginContext.Current.Resolve<UserService>();
 
-            //_userService.DoSomeThink();
+            _userService.DoSomeThink();
             //_userService.DoSomeThink();
 
             //var test = _userService.DeleteByIds(new List<object>() { 72, 74 }.ToArray());
