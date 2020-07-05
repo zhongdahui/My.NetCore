@@ -10,10 +10,12 @@
   </ItemGroup>
   
   <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.35" />
+    <PackageReference Include="Dapper.Extension" Version="1.0.0.1" />
     <PackageReference Include="sqlSugarCore" Version="5.0.0.15" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Autofac.Extras.DynamicProxy" Version="5.0.0" />
-    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="AutoMapper" Version="10.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="BarcodeLib" Version="2.2.5" />
     <PackageReference Include="Consul" Version="1.6.1.1" />
